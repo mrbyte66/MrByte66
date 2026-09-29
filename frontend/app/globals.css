@@ -15,9 +15,9 @@
   --color-accent: #5b9dff;
   --color-link: #5b9dff;
   --color-line: rgba(255, 255, 255, 0.09);
-  --font-sans: var(--font-sans);
-  --font-display: var(--font-display);
-  --font-mono: var(--font-mono);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-grotesk);
+  --font-mono: var(--font-jetbrains);
 }
 
 body {
@@ -113,6 +113,59 @@ body {
   text-decoration: underline;
 }
 
+@keyframes topo-drift {
+  to {
+    stroke-dashoffset: -17;
+  }
+}
+
+.topo-flow {
+  stroke-dasharray: 0.6 0.55;
+  animation: topo-drift 9s linear infinite;
+}
+
+@keyframes topo-trail {
+  to {
+    stroke-dashoffset: -17;
+  }
+}
+
+.topo-trail {
+  animation: topo-trail 2.6s linear infinite;
+  filter: drop-shadow(0 0 0.25px rgba(91, 157, 255, 0.9));
+}
+
+@keyframes topo-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(4.2);
+    opacity: 0;
+  }
+}
+
+.topo-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: topo-ping 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes topo-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.topo-min {
+  animation: topo-pulse 2.2s ease-in-out infinite;
+}
+
 .scroll-progress {
   transform: scaleX(0);
 }
@@ -162,6 +215,12 @@ body {
     animation: none;
   }
   .type-caret {
+    animation: none;
+  }
+  .topo-flow,
+  .topo-trail,
+  .topo-ring,
+  .topo-min {
     animation: none;
   }
 }

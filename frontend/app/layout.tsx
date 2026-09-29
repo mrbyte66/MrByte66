@@ -6,17 +6,17 @@ import { SmoothScroll } from "./components/SmoothScroll";
 import "./globals.css";
 
 const display = Space_Grotesk({
-  variable: "--font-display",
+  variable: "--font-grotesk",
   subsets: ["latin", "latin-ext"],
 });
 
 const sans = Inter({
-  variable: "--font-sans",
+  variable: "--font-inter",
   subsets: ["latin", "latin-ext"],
 });
 
 const mono = JetBrains_Mono({
-  variable: "--font-mono",
+  variable: "--font-jetbrains",
   subsets: ["latin", "latin-ext"],
 });
 

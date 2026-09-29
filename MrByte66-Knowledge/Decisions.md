@@ -672,3 +672,34 @@ Az öğe, çok nefes.
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-29
+
+### D-026: Topografik İniş Hero'su + Görsel Doğrulama Döngüsü
+
+**Karar**
+
+- Hero'ya gerçek loss fonksiyonunun marching-squares izo-eğrileri
+  (`TopoMap`, server-render SVG): akan konturlar, animasyonlu amber iniş
+  patikası, nabız minimum noktası. Üstünde shuffle başlık + daktilo
+  persona + CTA'lar. Liste satırlarına ok-animasyonlu hover.
+- Süreç dersi: headless Chrome screenshot döngüsü kuruldu
+  (`--user-data-dir` taze profil şart; default profil bayat cache sunar).
+  Bu sayede kör ilerleme bitti; hero ve detay ekran görüntüleriyle
+  doğrulandı (prod build dahil).
+- Font paniği asılsız çıktı: next/font latin-ext blokları doğru servis
+  ediliyor, Türkçe glifler prod ve dev'de düzgün. `@theme` değişken
+  isimleri çakışma ihtimaline karşı netleştirildi (`--font-inter` vb.).
+- lint + build temiz.
+
+**Gerekçe**
+
+Kullanıcı wow istedi; wow, gözle doğrulama gerektirir. Topo hero hem
+özgün (matematiksel olarak gerçek yüzey) hem hafif (JS animasyon
+kütüphanesi yok, saf SVG+CSS).
+
+**Durum**
+
+Kabul edildi.
