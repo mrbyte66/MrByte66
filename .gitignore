@@ -21,6 +21,11 @@ target/
 mvnw
 mvnw.cmd
 
+# IDE
+.idea/
+*.iml
+.vscode/
+
 # Node / Next.js
 node_modules/
 .next/
