@@ -66,6 +66,18 @@ Hassas bilgiler:
 
 Geliştirme ve dağıtım süreçlerinde Docker kullanılacaktır.
 
+Kök dizindeki `docker-compose.yml` PostgreSQL + backend + frontend servislerini birlikte ayağa kaldırır:
+
+```powershell
+docker compose up --build
+```
+
+- Frontend: http://localhost:3000
+- Backend: http://localhost:8080/api/health
+- PostgreSQL: localhost:5432
+
+Gereksinim: Docker Desktop kurulu ve çalışır durumda olmalıdır.
+
 Amaç:
 
 - Ortam farklılıklarını azaltmak.

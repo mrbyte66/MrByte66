@@ -10,9 +10,36 @@ The platform is planned to evolve from a personal digital identity into a more f
 
 ## Current Status
 
-Project is currently in planning and architecture phase.
+Backend and frontend skeletons are running.
 
-Development has not started yet.
+- Backend: Spring Boot API with `/api/health` endpoint (`backend/`)
+- Frontend: Next.js App Router skeleton showing backend status (`frontend/`)
+- Local orchestration: `docker-compose.yml` (PostgreSQL + backend + frontend)
+
+## Quick Start
+
+With Docker (requires Docker Desktop):
+
+```powershell
+docker compose up --build
+```
+
+- Frontend: http://localhost:3000
+- Backend: http://localhost:8080/api/health
+- PostgreSQL: localhost:5432 (db `mrbyte66`, dev credentials in `docker-compose.yml`)
+
+Local development without Docker:
+
+```powershell
+cd backend
+mvn spring-boot:run
+```
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
 
 ## Planned Technologies
 
