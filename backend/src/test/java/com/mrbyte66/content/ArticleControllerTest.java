@@ -33,4 +33,22 @@ class ArticleControllerTest {
         .andExpect(jsonPath("$[0].slug").value("pub"))
         .andExpect(jsonPath("$[0].title").value("Published One"));
   }
+
+  @Test
+  void returnsPublishedArticleBySlug() throws Exception {
+    articles.save(new Article("detail", "Detail Title", "Full body.", ArticleStatus.PUBLISHED));
+
+    mockMvc.perform(get("/api/articles/detail"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.slug").value("detail"))
+        .andExpect(jsonPath("$.content").value("Full body."));
+  }
+
+  @Test
+  void returns404ForMissingOrDraftSlug() throws Exception {
+    articles.save(new Article("hidden", "Hidden", "Body.", ArticleStatus.DRAFT));
+
+    mockMvc.perform(get("/api/articles/nope")).andExpect(status().isNotFound());
+    mockMvc.perform(get("/api/articles/hidden")).andExpect(status().isNotFound());
+  }
 }
