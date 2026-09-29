@@ -1,6 +1,7 @@
+import Link from "next/link";
+
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8080";
-
 async function getBackendStatus(): Promise<string> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/health`, {
@@ -78,12 +79,14 @@ export default async function Home() {
                   key={article.id}
                   className="rounded-lg border border-solid border-black/[.08] px-4 py-3 dark:border-white/[.145]"
                 >
-                  <span className="font-medium text-black dark:text-zinc-50">
-                    {article.title}
-                  </span>
-                  <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
-                    /{article.slug}
-                  </span>
+                  <Link href={`/articles/${article.slug}`} className="block">
+                    <span className="font-medium text-black dark:text-zinc-50">
+                      {article.title}
+                    </span>
+                    <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
+                      /{article.slug}
+                    </span>
+                  </Link>
                 </li>
               ))}
             </ul>
