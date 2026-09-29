@@ -246,3 +246,36 @@ Tailwind CSS; component tabanlı yapı, tasarım sistemi hedefi ve hızlı proto
 **Durum**
 
 Kabul edildi.
+
+---
+
+### D-012: Liquibase Migration ve Test Veritabanı Stratejisi
+
+**Karar**
+
+Veritabanı migration aracı olarak Flyway yerine Liquibase kullanılacaktır
+(formatted SQL changelog: `db/changelog/db.changelog-master.sql`).
+
+Local veritabanı `postgres:16-alpine` ile çalışacaktır.
+
+Testler H2 in-memory veritabanı ile koşacaktır (`@DataJpaTest`,
+PostgreSQL uyumluluk modu, Liquibase testlerde kapalı).
+
+**Gerekçe**
+
+Boot 3.5.x BOM ile gelen flyway-core (11.7.2) ve açıkça sabitlenen 11.20.3,
+güncel PostgreSQL 16/17 sürümlerini "Unsupported Database" hatasıyla reddetti.
+
+Liquibase ilk denemede sorunsuz çalıştı ve PostgreSQL sürümlerine karşı
+daha toleranslıdır.
+
+Testler Windows üzerindeki Maven'de koşarken gerçek PostgreSQL WSL
+Docker'ında çalışmaktadır; bu aşamada Testcontainers köprüsü kurmak
+gereksiz karmaşıklık olacağı için H2 tercih edilmiştir.
+
+Gerçek PostgreSQL uyumu compose açılışında Liquibase migration ile
+doğrulanmaktadır.
+
+**Durum**
+
+Kabul edildi.

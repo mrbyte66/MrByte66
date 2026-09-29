@@ -2,7 +2,7 @@ name: mrbyte66
 
 services:
   db:
-    image: postgres:17-alpine
+    image: postgres:16-alpine
     restart: unless-stopped
     environment:
       POSTGRES_DB: mrbyte66
@@ -25,6 +25,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mrbyte66
+      SPRING_DATASOURCE_USERNAME: mrbyte66
+      SPRING_DATASOURCE_PASSWORD: mrbyte66-dev
     ports:
       - "8080:8080"
 

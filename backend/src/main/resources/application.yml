@@ -4,3 +4,14 @@ server:
 spring:
   application:
     name: mrbyte66-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/mrbyte66}
+    username: ${SPRING_DATASOURCE_USERNAME:mrbyte66}
+    password: ${SPRING_DATASOURCE_PASSWORD:mrbyte66-dev}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.sql
+    enabled: true
