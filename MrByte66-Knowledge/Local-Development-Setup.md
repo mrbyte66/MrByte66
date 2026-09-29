@@ -85,7 +85,7 @@ Gereksinim: Docker Engine veya Docker Desktop (makineye göre değişir, aşağ�
 | Makine | İşletim Sistemi | Docker | Notlar |
 |---|---|---|---|
 | SAGE | Windows (eski sürüm, Docker Desktop desteklenmiyor) | WSL Ubuntu 26.04 içinde Docker Engine (`docker.io` + `docker-compose-v2`) | JDK 25 portable kurulum (`C:\Java`), `JAVA_HOME` set edildi; npm PATH gölgeleme sorunu kullanıcı PATH'i ile çözüldü; `docker` komutları WSL üzerinden `sudo` ile çalıştırılır |
-| MAcos | macOS | TBD | İlk kurulumda doldurulacaktır |
+| MAcos | macOS 15.7.7 (arm64) | Docker yok — native çalışma | JDK 25 Homebrew openjdk@25 (25.0.4.1, `JAVA_HOME` buna bakmalıdır), Maven 3.9.11, Node v22.18.0, PostgreSQL 16.10 (brew `postgresql@16` servisi, çalışıyor); `mrbyte66` DB + `mrbyte66` rol local oluşturuldu (şifre `mrbyte66-dev`, compose ile aynı); backend `mvn spring-boot:run` (:8080), frontend `npm install && npm run dev` (:3000); 2026-09-29'da native ayağa kaldırma doğrulandı |
 | masterPC | TBD | TBD | İlk kurulumda doldurulacaktır |
 
 Amaç:
@@ -101,6 +101,44 @@ Amaç:
 Backend, frontend ve database bileşenleri bağımsız şekilde geliştirilebilir ve çalıştırılabilir olmalıdır.
 
 Proje yapısı geliştiricilerin ve AI agentların kolay anlayabileceği şekilde düzenlenmelidir.
+
+---
+
+## Çok Makineli Git Akışı (SAGE / MAcos / masterPC)
+
+Tek remote (`origin`) ve tek ana branch (`main`) kullanılır.
+
+- SAGE push eder → MAcos / masterPC `git pull` ile güncellenir.
+- MAcos push eder → SAGE / masterPC `git pull` ile güncellenir.
+- Çalışmaya başlamadan önce her zaman `git pull` yapılır.
+- Test edilmemiş veya tamamlanmamış değişiklikler `main`'e push edilmez.
+- AI agent yaptığı değişiklikleri anlamlı commit mesajlarıyla işler ve ilgili dokümanları günceller.
+
+MAcos native çalıştırma komutları (Docker'sız):
+
+```zsh
+# PostgreSQL servisi (brew, bir kez kurulur ve başlatılır)
+brew install postgresql@16
+brew services start postgresql@16
+
+# DB ve rol (bir kez)
+psql -d postgres -c "CREATE ROLE mrbyte66 LOGIN PASSWORD 'mrbyte66-dev';"
+psql -d postgres -c "CREATE DATABASE mrbyte66 OWNER mrbyte66;"
+
+# Java 25 (bir kez)
+brew install openjdk@25
+export JAVA_HOME=/opt/homebrew/opt/openjdk@25
+export PATH="$JAVA_HOME/bin:$PATH"
+
+# Backend (:8080)
+cd backend
+mvn spring-boot:run
+
+# Frontend (:3000, ayrı terminal)
+cd frontend
+npm install
+npm run dev
+```
 
 ---
 
@@ -129,6 +167,6 @@ Container:
 - Docker
 - Docker Compose
 
-Geliştirme ortamı Windows ve Linux üzerinde desteklenecek şekilde hazırlanacaktır.
+Geliştirme ortamı Windows, Linux ve macOS üzerinde desteklenecek şekilde hazırlanacaktır.
 
 Production ortamı için Linux tabanlı sunucu ortamı (Ubuntu) hedeflenmektedir.

@@ -279,3 +279,34 @@ doğrulanmaktadır.
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-29
+
+### D-013: MAcos Native Çalıştırma ve Next.js Üretimi Dosyalar
+
+**Karar**
+
+MAcos makinesinde Docker kurulana kadar proje native çalıştırılacaktır
+(brew `postgresql@16` servisi + JDK 25 + Node ile `mvn spring-boot:run` ve `npm run dev`).
+
+`next dev` komutunun ürettiği `frontend/AGENTS.md` ve `frontend/CLAUDE.md`
+dosyaları repoya alınmayacak, `frontend/.gitignore` ile local tutulacaktır.
+
+**Gerekçe**
+
+MAcos üzerinde Docker bulunmamaktadır; brew PostgreSQL 16 zaten servis
+olarak çalışmaktadır ve "bileşenler bağımsız çalışabilmelidir" prensibine
+uygun olarak native çalıştırma 2026-09-29'da doğrulandı
+(backend `/api/health` UP, Liquibase migration uygulandı, frontend 200).
+
+Next.js 16 her `next dev` çalışında bu dosyaları yeniden üretmektedir;
+repoya alınmaları diff gürültüsü yaratır ve kökteki `AGENTS.md`'nin
+tek-agent-girişi rolünü gölgeler. SAGE tarafında farklı npm sürümüyle
+oluşan `package-lock.json` churn'ü de aynı gerekçeyle geri alındı;
+lockfile SAGE'in ürettiği haliyle kanonik kalır.
+
+**Durum**
+
+Kabul edildi.
