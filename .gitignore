@@ -11,3 +11,13 @@ Desktop.ini
 *.tmp
 *.bak
 ~$*
+
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+.mvn/
+mvnw
+mvnw.cmd
+

@@ -88,9 +88,9 @@ Kullanılacak temel teknoloji sürümleri:
 
 Backend:
 
-- Java: 25 LTS
-- Spring Boot: 3.x
-- Build Tool: Maven
+- Java: 25 LTS (Temurin 25.0.4.1, `C:\Java` altında portable kurulum; `JAVA_HOME` JDK 25'i göstermelidir)
+- Spring Boot: 3.5.16 (V1 başlangıç sürümü)
+- Build Tool: Maven (3.8.8 ile doğrulandı)
 
 Frontend:
 
