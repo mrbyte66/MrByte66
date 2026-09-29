@@ -493,3 +493,35 @@ Hareket, ortamın parçası değil geçişlerin dili olarak tutuldu.
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-29
+
+### D-020: 3B Derinlik Dili (Traditional-Dışı Tema)
+
+**Karar**
+
+Kullanıcı traditional-dışı, 3 boyutlu hisseden tema istedi. CSS 3D ile
+(WebGL yok, yeni bağımlılık yok):
+
+- `Scene3D`: hero'da mouse-paralaks sahne; katmanlar `data-depth` ile
+  ekran düzleminde, sahne `rotateX/rotateY` ile döner. Dev outline "66",
+  glow'lar, cam efektli yüzen yazı/proje kartları, önde API rozeti.
+  3B küme yalnızca `lg` ve üstünde gösterilir, mobilde sade hero kalır.
+- `Tilt`: kartlarda hover ile 3B eğilme (max 9°).
+- `Parallax`: bölüm başlıklarındaki dev outline kelimeler (YAZILAR,
+  PROJELER) scroll ile farklı hızda sürüklenir.
+- D-019 öğeleri (sayfa geçişleri, smooth scroll, reveal) korunur;
+  cursor/canvas/marquee geri gelmez.
+- `prefers-reduced-motion` + `pointer:coarse` guard'ları; lint + build temiz.
+
+**Gerekçe**
+
+Kullanıcı net istedi: normal website görünümünün dışına çık, 3B hisset.
+CSS 3D, WebGL ağırlığı olmadan bu hissi verir ve detaysayfalar/admin
+sakin kalır (okunabilirlik korunur).
+
+**Durum**
+
+Kabul edildi.

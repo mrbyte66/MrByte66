@@ -117,6 +117,76 @@ body {
   border-color: rgba(198, 241, 53, 0.35);
 }
 
+/* ---------- 3D depth language (D-020) ---------- */
+
+.scene {
+  --rx: 0deg;
+  --ry: 0deg;
+  perspective: 1200px;
+}
+
+.scene-stage {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scene-layer {
+  transform: translate3d(var(--px, 0px), var(--py, 0px), var(--pz, 0px));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tilt {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(237, 237, 239, 0.16);
+}
+
+.text-outline-accent {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(198, 241, 53, 0.4);
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -12px;
+  }
+}
+
+.floaty {
+  animation: floaty 7s ease-in-out infinite;
+}
+
+.floaty-slow {
+  animation: floaty 11s ease-in-out infinite reverse;
+}
+
+.glass {
+  background: rgba(20, 22, 26, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floaty,
+  .floaty-slow {
+    animation: none;
+  }
+  .scene-stage,
+  .scene-layer,
+  .tilt {
+    transition: none;
+  }
+}
+
 .nav-link {
   position: relative;
   transition: color 0.25s ease;
