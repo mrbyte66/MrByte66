@@ -677,6 +677,40 @@ Kabul edildi.
 
 ## 2026-09-29
 
+### D-027: Monitör-Kafalı Byte (LISA-tarzı 3B Hero, 3 Agent)
+
+**Karar**
+
+Kullanıcı LISA'daki fareyi takip eden monitör-kafalı karakterin benzerini
+istedi (birebir aynı olmaz — onların modeli özel tarama). 3 agent'lı
+paralel çalışma:
+
+- Agent-1 (modelci): `MonitorStage.tsx` — prosedürel Three.js kadın android:
+  CRT kafa (parlayan ekran, imlece dönen gözler + kırpma, gülümseme,
+  anten), kafa fareyi takip eder (yaw/pitch lerp), torso salınımı,
+  tıklamada selam nod'u. Alpha zemin, rim ışıklar, DPR cap, reduced-motion
+  statik kare, WebGL yoksa gizlenir.
+- Agent-2 (hero): split hero (dev shuffle başlık SELAM./BEN BYTE./İZLİYORUM.,
+  daktilo persona, CTA'lar, API rozeti, sahne + alt yazı). TopoMap silindi.
+- Agent-3 (onay): sözleşme uyumu, gerçek health rozeti, torso ışık + saç
+  bağlantı düzeltmeleri, build + lint + screenshot turu. Hepsi onaylandı.
+- three.js bağımlılığı geri eklendi. lint + build temiz, ekran görüntüleri
+  (dev + prod) doğrulandı.
+
+**Gerekçe**
+
+Kullanıcının LISA referansı netti; 3B karakter + konuşan persona
+birleşimi sitenin maskotu oldu. Paralel çalışma dosya çakışması olmadan
+yürütüldü (ayrık dosya setleri + sözleşme + sonradan onay turu).
+
+**Durum**
+
+Kabul edildi.
+
+---
+
+## 2026-09-29
+
 ### D-026: Topografik İniş Hero'su + Görsel Doğrulama Döngüsü
 
 **Karar**

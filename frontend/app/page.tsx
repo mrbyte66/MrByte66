@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "./components/Reveal";
 import { ShuffleText } from "./components/ShuffleText";
-import { TopoMap } from "./components/TopoMap";
+import { MonitorStage } from "./components/MonitorStage";
 import { Typewriter } from "./components/Typewriter";
 
 const BACKEND_URL =
@@ -51,6 +51,21 @@ async function getProjects(): Promise<Project[]> {
   }
 }
 
+async function getBackendStatus(): Promise<string> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/health`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      return "DOWN";
+    }
+    const data = (await res.json()) as { status?: string };
+    return data.status ?? "DOWN";
+  } catch {
+    return "UNREACHABLE";
+  }
+}
+
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("tr-TR", {
     day: "numeric",
@@ -71,44 +86,65 @@ function RowArrow() {
 }
 
 export default async function Home() {
-  const [articles, projects] = await Promise.all([
+  const [articles, projects, backendStatus] = await Promise.all([
     getArticles(),
     getProjects(),
+    getBackendStatus(),
   ]);
 
   return (
     <div className="flex flex-col">
       <section className="relative overflow-hidden">
-        <TopoMap className="absolute inset-0 h-full w-full opacity-90" />
-        <div className="relative mx-auto flex min-h-[88vh] w-full max-w-5xl flex-col justify-center gap-6 px-6 py-24">
-          <p className="font-mono text-xs tracking-[0.35em] text-muted">
-            MRBYTE66 — KAYIP YÜZEYİ HARİTALANDI
-          </p>
-          <h1 className="font-display text-7xl font-bold leading-[0.92] tracking-tight text-paper sm:text-8xl">
-            <ShuffleText text="ÖĞREN." delay={200} />
-            <br />
-            <ShuffleText text="ÜRET." delay={650} />
-            <br />
-            <span className="text-accent">
-              <ShuffleText text="PAYLAŞ." delay={1100} />
-            </span>
-          </h1>
-          <p className="max-w-xl text-lg leading-8 text-muted">
-            <Typewriter
-              text="Selam! Ben Byte. Her yazı bir iterasyon, her proje bir minimum — kaydır ve inişe katıl."
-              delay={800}
-            />
-          </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <Link
-              href="/#yazilar"
-              className="rounded-full bg-paper px-7 py-2.5 text-[15px] font-semibold text-ink"
-            >
-              İnişe Başla
-            </Link>
-            <Link href="/projects" className="link-more text-[15px]">
-              Projeler →
-            </Link>
+        <div className="mx-auto flex min-h-[92vh] w-full max-w-5xl flex-col justify-center px-6 pb-16 pt-28 lg:pt-32">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="flex flex-col gap-6">
+              <p className="font-mono text-xs tracking-[0.35em] text-muted">
+                MRBYTE66 — TANIŞALIM
+              </p>
+              <h1 className="font-display text-6xl font-bold leading-[0.92] tracking-tight text-paper sm:text-7xl xl:text-8xl">
+                <ShuffleText text="SELAM." delay={200} />
+                <br />
+                <ShuffleText text="BEN BYTE." delay={650} />
+                <br />
+                <span className="text-accent">
+                  <ShuffleText text="İZLİYORUM." delay={1100} />
+                </span>
+              </h1>
+              <p className="max-w-xl text-lg leading-8 text-muted">
+                <Typewriter
+                  text="Ben Byte — monitör kafalı ev arkadaşın. Fareyi nereye götürürsen gözlerim seni takip eder."
+                  delay={800}
+                />
+              </p>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link
+                  href="/#yazilar"
+                  className="rounded-full bg-paper px-7 py-2.5 text-[15px] font-semibold text-ink"
+                >
+                  Yazıları Oku
+                </Link>
+                <Link href="/projects" className="link-more text-[15px]">
+                  Projeler →
+                </Link>
+              </div>
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-line px-3 py-1 font-mono text-xs text-faint">
+                <span
+                  aria-hidden="true"
+                  className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-accent"
+                />
+                <span>
+                  API: {backendStatus}
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="relative h-[360px] lg:h-[480px] xl:h-[540px]">
+                <MonitorStage className="absolute inset-0" />
+              </div>
+              <p className="font-mono text-xs text-faint">
+                fareyi oynat — seni izliyor
+              </p>
+            </div>
           </div>
         </div>
       </section>
