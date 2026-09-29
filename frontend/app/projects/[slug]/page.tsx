@@ -34,6 +34,35 @@ async function getProject(slug: string): Promise<ProjectDetail | null> {
   }
 }
 
+type ProjectSummary = {
+  slug: string;
+  title: string;
+};
+
+async function getNeighbors(
+  slug: string,
+): Promise<{ prev: ProjectSummary | null; next: ProjectSummary | null }> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/projects`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      return { prev: null, next: null };
+    }
+    const list = (await res.json()) as ProjectSummary[];
+    const i = list.findIndex((p) => p.slug === slug);
+    if (i === -1) {
+      return { prev: null, next: null };
+    }
+    return {
+      prev: i > 0 ? list[i - 1] : null,
+      next: i < list.length - 1 ? list[i + 1] : null,
+    };
+  } catch {
+    return { prev: null, next: null };
+  }
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -74,6 +103,7 @@ export default async function ProjectPage({
   if (project === null) {
     notFound();
   }
+  const { prev, next } = await getNeighbors(slug);
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 py-16 sm:py-24">
@@ -126,6 +156,30 @@ export default async function ProjectPage({
           </a>
         )}
       </div>
+      {(prev || next) && (
+        <nav className="mt-10 flex flex-col gap-6 border-t border-line pt-8">
+          {prev && (
+            <Link href={`/projects/${prev.slug}`} className="group w-fit">
+              <p className="font-mono text-[11px] tracking-widest text-faint">
+                ← ÖNCEKİ
+              </p>
+              <p className="mt-1 font-display text-2xl font-semibold text-paper blur-[2px] transition-all duration-500 group-hover:blur-none">
+                {prev.title}
+              </p>
+            </Link>
+          )}
+          {next && (
+            <Link href={`/projects/${next.slug}`} className="group w-fit self-end text-right">
+              <p className="font-mono text-[11px] tracking-widest text-faint">
+                SONRAKİ →
+              </p>
+              <p className="mt-1 font-display text-2xl font-semibold text-paper transition-colors duration-300 group-hover:text-accent">
+                {next.title}
+              </p>
+            </Link>
+          )}
+        </nav>
+      )}
     </div>
   );
 }

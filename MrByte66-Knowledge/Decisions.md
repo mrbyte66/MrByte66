@@ -737,3 +737,32 @@ kütüphanesi yok, saf SVG+CSS).
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-30
+
+### D-028: Her Sayfada Canlı Byte + Blurred Prev/Next
+
+**Karar**
+
+- `ByteCompanion` layout'a eklendi: sağ altta mini Byte (aynı 3B sahne,
+  pencere faresini takip eder) + route'a özel dönen replikler (anasayfa,
+  projeler, yazılar, admin) + kapatma. Tüm sayfalarda canlı.
+- Detay sayfalarına LISA-tarzı prev/next: ÖNCEKİ başlık blurred gelir,
+  hover'da netleşir; SONRAKİ vurgulu. Komşuluk public liste sırasından
+  hesaplanır (server-side, ek API yok).
+- `MonitorStage` WebGL'siz fallback: statik SVG yüz (CSS göz kırpma).
+  Safari'de canvas boş kalmaz; Safari sekmesinin de sert yenilenmesi
+  istendi (safaridriver için Safari ayarı + sudo gerektiğinden otomatik
+  teşhis kurulamadı).
+- lint + build temiz; hero, detay ve companion ekran görüntüleriyle doğrulandı.
+
+**Gerekçe**
+
+Kullanıcı: bot açılışta gelsin, tüm sayfalarda canlı kalsın, etkileşim
+zengin olsun; blurred previous detayını sevdi. Aynen uygulandı.
+
+**Durum**
+
+Kabul edildi.

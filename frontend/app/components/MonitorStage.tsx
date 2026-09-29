@@ -1,13 +1,40 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+
+/** Static SVG face when WebGL is unavailable (e.g. older Safari). */
+function StaticFace() {
+  return (
+    <div className="flex h-full w-full items-center justify-center">
+      <svg viewBox="0 0 120 110" className="h-3/4 w-3/4" aria-hidden="true">
+        <rect x="14" y="8" width="92" height="72" rx="10" fill="#22252e" />
+        <rect x="22" y="16" width="76" height="56" rx="5" fill="#0e1626" />
+        <g fill="#7db4ff" className="static-blink">
+          <circle cx="46" cy="40" r="6" />
+          <circle cx="74" cy="40" r="6" />
+        </g>
+        <path
+          d="M48,58 Q60,68 72,58"
+          fill="none"
+          stroke="#7db4ff"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        <line x1="106" y1="30" x2="116" y2="30" stroke="#3a3f4c" strokeWidth="4" />
+        <circle cx="117" cy="30" r="3.5" fill="#6fb3ff" />
+        <rect x="48" y="80" width="24" height="22" rx="4" fill="#363b48" />
+      </svg>
+    </div>
+  );
+}
 
 /** Floating procedural monitor-head android that tracks the cursor and nods on click. */
 export function MonitorStage({ className = "" }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -19,8 +46,11 @@ export function MonitorStage({ className = "" }: { className?: string }) {
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      if (!renderer.getContext()) {
+        throw new Error("no webgl context");
+      }
     } catch {
-      canvas.style.display = "none";
+      setFailed(true);
       return;
     }
 
@@ -275,7 +305,11 @@ export function MonitorStage({ className = "" }: { className?: string }) {
       aria-hidden="true"
       className={`relative h-full w-full overflow-hidden ${className}`}
     >
-      <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" />
+      {failed ? (
+        <StaticFace />
+      ) : (
+        <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" />
+      )}
     </div>
   );
 }
