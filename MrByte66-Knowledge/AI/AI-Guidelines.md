@@ -46,11 +46,12 @@ Amaç hızlı kod üretmek değil, doğru çözümü üretmektir.
 AI ajanı geliştirme yapmadan önce aşağıdaki dokümanları ilgili sırayla incelemelidir:
 
 1. Vision.md
-2. Requirements.md
-3. Architecture.md
-4. Roadmap.md
-5. Decisions.md
-6. AI-Guidelines.md
+2. Project.md
+3. Requirements.md
+4. Architecture.md
+5. Roadmap.md
+6. Decisions.md
+7. AI/AI-Guidelines.md
 
 Görevin kapsamına göre ilgili dokümanlara öncelik verilmelidir.
 

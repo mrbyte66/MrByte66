@@ -163,17 +163,26 @@ Backend build sistemi olarak Maven kullanılacaktır.
 
 ### Proje Yapısı
 
-Backend uygulaması modular monolith yaklaşımına uygun şekilde organize edilecektir.
+Backend tek bir Spring Boot uygulaması olarak geliştirilecektir.
 
-Modüller:
+Maven multi-module yapısı kullanılmayacaktır.
 
-- Content
-- User
-- Authentication
-- Media
-- diğer gerekli domain modülleri
+Modular Monolith yaklaşımı, package ve domain sınırları ile uygulanacaktır:
 
-kendi sorumluluk alanlarını koruyacak şekilde tasarlanacaktır.
+```text
+backend/src/main/java/com/mrbyte66/
+    content/
+    user/
+    authentication/
+    media/
+```
+
+Kurallar:
+
+- Her modül kendi sorumluluk alanını koruyacaktır.
+- Modül sınırları package yapısı ile sağlanacaktır.
+- Modüller arası gereksiz bağımlılıklardan kaçınılacaktır.
+- İleride ihtiyaç duyulursa modüller bağımsız servislere ayrılabilecek şekilde tasarlanacaktır.
 
 ### Package Structure
 

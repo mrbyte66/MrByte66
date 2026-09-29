@@ -188,3 +188,35 @@ Frontend-backend bağımsız geliştirme ve ileride modüllerin servislere ayrı
 **Durum**
 
 Kabul edildi.
+
+---
+
+### D-010: Tek Uygulama ve Package Bazlı Modular Monolith
+
+**Karar**
+
+Backend tek bir Spring Boot uygulaması olarak geliştirilecektir.
+
+Maven multi-module yapısı kullanılmayacaktır.
+
+Modular Monolith yaklaşımı, package ve domain sınırları ile uygulanacaktır:
+
+```text
+backend/src/main/java/com/mrbyte66/
+    content/
+    user/
+    authentication/
+    media/
+```
+
+**Gerekçe**
+
+V1 hedefi hızlı ve uygulanabilir geliştirmedir.
+
+Tek uygulama, multi-module yapının getireceği build ve operasyonel karmaşıklığı ortadan kaldırır.
+
+Modül sınırları package disiplini ile korunacak, ileride ihtiyaç duyulursa bağımsız servislere ayrılma imkanı saklı tutulacaktır.
+
+**Durum**
+
+Kabul edildi.
