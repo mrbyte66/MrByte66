@@ -562,6 +562,35 @@ Kabul edildi.
 
 ## 2026-09-29
 
+### D-024: LISA Çizgisi (Monokrom + Kinetik Tipografi + Persona)
+
+**Karar**
+
+Kullanıcı LISA (Locomotive) ve Dropbox'ı referans verdi; takımyıldız
+denemesi başarısız bulundu. Yeni dil:
+
+- Monokrom zemin + tek mavi vurgu (`#5B9DFF`); beyaz hap butonlar.
+- `ShuffleText`: harf karıştırma ile oturan dev başlık
+  (ÖĞREN. / ÜRET. / PAYLAŞ.).
+- `Typewriter`: sitenin personeli Byte'ın konuşma satırı + yanıp sönen imleç.
+- Takımyıldız canvas'ı silindi; cam içerik bölümleri, sayfa geçişleri,
+  smooth scroll ve reveal'lar korundu.
+- Referanslar Requirements.md'ye işlendi (lisa, chicago.com; dropbox
+  doğrulandı). lint + build temiz.
+
+**Gerekçe**
+
+Kullanıcının verdiği örneklerin ortak dili birebir uygulandı: tipografi
+konuşur, sahne yok, hareket az ama karakterli.
+
+**Durum**
+
+Kabul edildi.
+
+---
+
+## 2026-09-29
+
 ### D-021: Apple-Tarzı Aydınlık Tema
 
 **Karar**

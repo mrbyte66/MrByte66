@@ -147,7 +147,9 @@ V2 geliştirmelerinde V1 mimari kararları korunarak sistemin genişletilebilirl
 İlham alınacak siteler:
 
 - https://www.bdsn.club/
-- https://brand.dropbox.com/
+- https://brand.dropbox.com/ (doğrulandı: dev tipografi, eğlenceli geometri — ana referans)
+- https://lisa.locomotive.ca/en (ana referans: siyah/beyaz palet, kinetik tipografi/harf karıştırma geçişleri, eğlenceli AI personeli, sade ama etkileyici hareket)
+- https://chicago.com (Decimal, Next.js: editoryal topluluk platformu ritmi)
 - https://unseen.co/projects/
 - https://activetheory.net/
 - https://www.epic.net/en/
@@ -155,6 +157,13 @@ V2 geliştirmelerinde V1 mimari kararları korunarak sistemin genişletilebilirl
 
 Ek referans:
 - https://madebyshape.co.uk/web-design-blog/best-websites-that-use-illustration-and-animation/
+
+Referanslardan alınacaklar (LISA + Dropbox çizgisi):
+
+- Monokrom zemin + tek vurgu rengi; kalabalık sahneler yerine tipografi konuşur.
+- Kinetik tipografi: harf karıştırma (letter-shuffle) ve daktilo efektleri.
+- Sitenin kendi personeli (Byte) konuşur gibi eğlenceli mikro metinler.
+- Az ama etkileyici hareket: abartılı 3B sahneler yok, geçişler ve reveal'lar var.
 
 Beklenen özellikler:
 

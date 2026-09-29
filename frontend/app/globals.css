@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #05070d;
-  --foreground: #f2f5f9;
+  --background: #0a0a0b;
+  --foreground: #fafafa;
 }
 
 @theme inline {
-  --color-ink: #05070d;
-  --color-surface: #0b1120;
-  --color-raised: #101a30;
-  --color-paper: #f2f5f9;
-  --color-muted: #94a3b8;
-  --color-faint: #5b6b82;
-  --color-accent: #38bdf8;
-  --color-link: #7dd3fc;
+  --color-ink: #0a0a0b;
+  --color-surface: #131315;
+  --color-raised: #1b1b1f;
+  --color-paper: #fafafa;
+  --color-muted: #a1a1aa;
+  --color-faint: #63636b;
+  --color-accent: #5b9dff;
+  --color-link: #5b9dff;
   --color-line: rgba(255, 255, 255, 0.09);
   --font-sans: var(--font-sans);
   --font-display: var(--font-display);
@@ -26,8 +26,8 @@ body {
 }
 
 ::selection {
-  background: var(--color-accent);
-  color: #05070d;
+  background: var(--color-paper);
+  color: #0a0a0b;
 }
 
 @keyframes rise {
@@ -93,8 +93,8 @@ body {
 
 .card-lift:hover {
   transform: translateY(-3px);
-  border-color: rgba(56, 189, 248, 0.35);
-  box-shadow: 0 16px 48px rgba(56, 189, 248, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
 }
 
 .nav-link {
@@ -131,27 +131,19 @@ body {
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
 
-@keyframes cue-drop {
+@keyframes caret-blink {
   0%,
   100% {
-    transform: translateY(-4px);
-    opacity: 0.4;
-  }
-  50% {
-    transform: translateY(4px);
     opacity: 1;
   }
+  50% {
+    opacity: 0;
+  }
 }
 
-.scroll-cue {
-  animation: cue-drop 2.2s ease-in-out infinite;
-}
-
-.text-gradient-sky {
-  background: linear-gradient(180deg, #ffffff 20%, #7dd3fc 75%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.type-caret {
+  animation: caret-blink 1s step-end infinite;
+  color: var(--color-accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -169,7 +161,7 @@ body {
   .live-dot {
     animation: none;
   }
-  .scroll-cue {
+  .type-caret {
     animation: none;
   }
 }

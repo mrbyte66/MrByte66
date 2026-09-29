@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Constellation, type GraphNode } from "./components/Constellation";
 import { Reveal } from "./components/Reveal";
+import { ShuffleText } from "./components/ShuffleText";
+import { Typewriter } from "./components/Typewriter";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8080";
@@ -84,55 +85,45 @@ export default async function Home() {
   ]);
   const online = backendStatus === "UP";
 
-  const graph: GraphNode[] = [
-    { id: "hub", label: "MrByte66", href: "/", kind: "hub" },
-    ...(articles ?? []).slice(0, 6).map((a) => ({
-      id: `a-${a.id}`,
-      label: a.title.length > 26 ? `${a.title.slice(0, 26)}…` : a.title,
-      href: `/articles/${a.slug}`,
-      kind: "article" as const,
-    })),
-    ...(projects ?? []).slice(0, 6).map((p) => ({
-      id: `p-${p.id}`,
-      label: p.title.length > 26 ? `${p.title.slice(0, 26)}…` : p.title,
-      href: `/projects/${p.slug}`,
-      kind: "project" as const,
-    })),
-  ];
-
   return (
     <div className="flex flex-col">
-      <section className="relative flex min-h-[92vh] flex-col overflow-hidden">
-        <Constellation nodes={graph} />
-        <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-col items-center gap-4 px-6 pt-28 text-center">
-          <p className="rise font-mono text-xs tracking-[0.35em] text-accent">
-            BİLGİ TAKIMYILDIZI
-          </p>
-          <h1
-            className="rise font-display text-5xl font-bold leading-[1.02] tracking-tight sm:text-7xl"
-            style={{ animationDelay: "120ms" }}
-          >
-            <span className="text-gradient-sky">Düşünce</span>
-            <span className="text-paper"> ağı.</span>
-          </h1>
-          <p
-            className="rise max-w-md leading-7 text-muted"
-            style={{ animationDelay: "240ms" }}
-          >
-            Her düğüm bir yazı, bir proje. Sürükle, yakından bak, tıklayıp
-            içine gir.
-          </p>
-        </div>
-        <div className="absolute bottom-6 left-6 flex items-center gap-2 font-mono text-[11px] text-faint">
-          <span
-            className={`inline-block h-1.5 w-1.5 rounded-full ${
-              online ? "live-dot bg-accent" : "bg-red-500"
-            }`}
+      <section className="relative mx-auto flex min-h-[92vh] w-full max-w-5xl flex-col justify-center gap-7 px-6">
+        <p className="font-mono text-xs tracking-[0.35em] text-muted">
+          MRBYTE66 — KİŞİSEL PLATFORM
+        </p>
+        <h1 className="font-display text-7xl font-bold leading-[0.95] tracking-tight text-paper sm:text-8xl">
+          <ShuffleText text="ÖĞREN." delay={200} />
+          <br />
+          <ShuffleText text="ÜRET." delay={700} />
+          <br />
+          <span className="text-accent">
+            <ShuffleText text="PAYLAŞ." delay={1200} />
+          </span>
+        </h1>
+        <p className="max-w-xl text-lg leading-8 text-muted">
+          <Typewriter
+            text="Selam! Ben Byte. Buralarda yazı ve proje biriktiriyorum — karıştır, oku, takıl."
+            delay={900}
           />
-          API {backendStatus}
-        </div>
-        <div className="absolute bottom-6 right-6 hidden font-mono text-[11px] text-faint sm:block">
-          mavi · yazı&ensp;&ensp;amber · proje
+        </p>
+        <div className="flex flex-wrap items-center gap-4">
+          <Link
+            href="/#yazilar"
+            className="rounded-full bg-paper px-7 py-2.5 text-[15px] font-semibold text-ink"
+          >
+            Yazıları Oku
+          </Link>
+          <Link href="/projects" className="link-more text-[15px]">
+            Projeler →
+          </Link>
+          <span className="flex items-center gap-2 font-mono text-[11px] text-faint">
+            <span
+              className={`inline-block h-1.5 w-1.5 rounded-full ${
+                online ? "live-dot bg-accent" : "bg-red-500"
+              }`}
+            />
+            API {backendStatus}
+          </span>
         </div>
       </section>
 
