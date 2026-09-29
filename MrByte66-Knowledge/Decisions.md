@@ -649,3 +649,26 @@ sakin kalır (okunabilirlik korunur).
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-29
+
+### D-025: Minimalist Anasayfa
+
+**Karar**
+
+Kullanıcı sadeleşme istedi. Anasayfa dar kolona çekildi: isim + tek
+paragraf + linkler; Yazılar ve Projeler ince çizgili liste satırları
+(başlık + tarih / teknolojiler). Kart yok, hero yok, kinetik tipografi
+silindi (dosyalar kaldırıldı). Detay ve admin sayfalar zaten sakindi,
+aynen korundu.
+
+**Gerekçe**
+
+Bir dizi denemeden sonra net istek: süssüz, içerik-odaklı giriş.
+Az öğe, çok nefes.
+
+**Durum**
+
+Kabul edildi.

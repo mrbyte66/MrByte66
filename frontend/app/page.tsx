@@ -1,31 +1,14 @@
 import Link from "next/link";
-import { Reveal } from "./components/Reveal";
-import { ShuffleText } from "./components/ShuffleText";
-import { Typewriter } from "./components/Typewriter";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8080";
-
-async function getBackendStatus(): Promise<string> {
-  try {
-    const res = await fetch(`${BACKEND_URL}/api/health`, {
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      return "DOWN";
-    }
-    const data = await res.json();
-    return data.status ?? "UNKNOWN";
-  } catch {
-    return "UNREACHABLE";
-  }
-}
 
 type Article = {
   id: number;
   slug: string;
   title: string;
   status: string;
+  createdAt: string;
 };
 
 type Project = {
@@ -36,170 +19,126 @@ type Project = {
   technologies: string[];
 };
 
-async function getArticles(): Promise<Article[] | null> {
+async function getArticles(): Promise<Article[]> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/articles`, {
       cache: "no-store",
     });
     if (!res.ok) {
-      return null;
+      return [];
     }
     return (await res.json()) as Article[];
   } catch {
-    return null;
+    return [];
   }
 }
 
-async function getProjects(): Promise<Project[] | null> {
+async function getProjects(): Promise<Project[]> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/projects`, {
       cache: "no-store",
     });
     if (!res.ok) {
-      return null;
+      return [];
     }
     return (await res.json()) as Project[];
   } catch {
-    return null;
+    return [];
   }
 }
 
-function Chapter({ index, title }: { index: string; title: string }) {
-  return (
-    <Reveal>
-      <div className="flex items-baseline gap-4">
-        <span className="font-mono text-xs text-accent">{index}</span>
-        <h2 className="font-display text-3xl font-bold tracking-tight text-paper sm:text-4xl">
-          {title}
-        </h2>
-      </div>
-    </Reveal>
-  );
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("tr-TR", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 export default async function Home() {
-  const [backendStatus, articles, projects] = await Promise.all([
-    getBackendStatus(),
+  const [articles, projects] = await Promise.all([
     getArticles(),
     getProjects(),
   ]);
-  const online = backendStatus === "UP";
 
   return (
-    <div className="flex flex-col">
-      <section className="relative mx-auto flex min-h-[92vh] w-full max-w-5xl flex-col justify-center gap-7 px-6">
-        <p className="font-mono text-xs tracking-[0.35em] text-muted">
-          MRBYTE66 — KİŞİSEL PLATFORM
-        </p>
-        <h1 className="font-display text-7xl font-bold leading-[0.95] tracking-tight text-paper sm:text-8xl">
-          <ShuffleText text="ÖĞREN." delay={200} />
-          <br />
-          <ShuffleText text="ÜRET." delay={700} />
-          <br />
-          <span className="text-accent">
-            <ShuffleText text="PAYLAŞ." delay={1200} />
-          </span>
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-16 px-6 py-20 sm:py-28">
+      <section className="flex flex-col gap-4">
+        <h1 className="text-2xl font-semibold tracking-tight text-paper">
+          MrByte66
         </h1>
-        <p className="max-w-xl text-lg leading-8 text-muted">
-          <Typewriter
-            text="Selam! Ben Byte. Buralarda yazı ve proje biriktiriyorum — karıştır, oku, takıl."
-            delay={900}
-          />
+        <p className="leading-7 text-muted">
+          Yazılım, yapay zeka ve düşünce üzerine yazılar; arada projeler.
+          Burası kişisel arşivim.
         </p>
-        <div className="flex flex-wrap items-center gap-4">
-          <Link
-            href="/#yazilar"
-            className="rounded-full bg-paper px-7 py-2.5 text-[15px] font-semibold text-ink"
-          >
-            Yazıları Oku
+        <div className="flex gap-5 text-[15px]">
+          <Link href="/projects" className="link-more">
+            Projeler
           </Link>
-          <Link href="/projects" className="link-more text-[15px]">
-            Projeler →
+          <Link href="/admin" className="link-more">
+            Admin
           </Link>
-          <span className="flex items-center gap-2 font-mono text-[11px] text-faint">
-            <span
-              className={`inline-block h-1.5 w-1.5 rounded-full ${
-                online ? "live-dot bg-accent" : "bg-red-500"
-              }`}
-            />
-            API {backendStatus}
-          </span>
         </div>
       </section>
 
-      <section
-        id="yazilar"
-        className="relative mx-auto flex w-full max-w-5xl scroll-mt-24 flex-col gap-8 px-6 py-28"
-      >
-        <Chapter index="01" title="Yazılar" />
-        {articles === null ? (
-          <p className="text-sm text-muted">Yazılar yüklenemedi.</p>
-        ) : articles.length === 0 ? (
-          <p className="text-sm text-muted">Henüz yayınlanmış yazı yok.</p>
+      <section className="flex flex-col gap-2">
+        <h2 className="font-mono text-xs tracking-[0.25em] text-faint">
+          YAZILAR
+        </h2>
+        {articles.length === 0 ? (
+          <p className="py-4 text-sm text-muted">Henüz yazı yok.</p>
         ) : (
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {articles.map((article, i) => (
-              <li key={article.id}>
-                <Reveal delay={(i % 4) * 70} className="h-full">
-                  <Link
-                    href={`/articles/${article.slug}`}
-                    className="card-lift glass block h-full rounded-2xl border border-line p-7"
-                  >
-                    <p className="font-mono text-[11px] tracking-widest text-accent">
-                      YAZI · {String(i + 1).padStart(2, "0")}
-                    </p>
-                    <p className="mt-3 font-display text-xl font-semibold leading-snug text-paper">
-                      {article.title}
-                    </p>
-                    <p className="link-more mt-4 text-[15px]">
-                      Okumaya devam et →
-                    </p>
-                  </Link>
-                </Reveal>
+          <ul>
+            {articles.map((article) => (
+              <li key={article.id} className="border-t border-line py-4">
+                <Link
+                  href={`/articles/${article.slug}`}
+                  className="group flex items-baseline justify-between gap-4"
+                >
+                  <span className="text-[17px] text-paper group-hover:underline">
+                    {article.title}
+                  </span>
+                  <span className="shrink-0 font-mono text-xs text-faint">
+                    {formatDate(article.createdAt)}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
         )}
       </section>
 
-      <section className="relative mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 py-28">
-        <Chapter index="02" title="Projeler" />
-        {projects === null ? (
-          <p className="text-sm text-muted">Projeler yüklenemedi.</p>
-        ) : projects.length === 0 ? (
-          <p className="text-sm text-muted">Henüz yayınlanmış proje yok.</p>
-        ) : (
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {projects.map((project, i) => (
-              <li key={project.id}>
-                <Reveal delay={(i % 4) * 70} className="h-full">
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="card-lift glass block h-full rounded-2xl border border-line p-7"
-                  >
-                    <p className="font-mono text-[11px] tracking-widest text-accent">
-                      PROJE · {String(i + 1).padStart(2, "0")}
-                    </p>
-                    <p className="mt-3 font-display text-xl font-semibold leading-snug text-paper">
-                      {project.title}
-                    </p>
-                    {project.summary && (
-                      <p className="mt-2 line-clamp-2 text-[15px] leading-7 text-muted">
-                        {project.summary}
-                      </p>
-                    )}
-                    {project.technologies.length > 0 && (
-                      <p className="mt-4 font-mono text-xs text-faint">
-                        {project.technologies.join(" · ")}
-                      </p>
-                    )}
-                  </Link>
-                </Reveal>
+      {projects.length > 0 && (
+        <section className="flex flex-col gap-2">
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-mono text-xs tracking-[0.25em] text-faint">
+              PROJELER
+            </h2>
+            <Link href="/projects" className="link-more text-sm">
+              Tümü
+            </Link>
+          </div>
+          <ul>
+            {projects.map((project) => (
+              <li key={project.id} className="border-t border-line py-4">
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="group flex flex-col gap-1"
+                >
+                  <span className="text-[17px] text-paper group-hover:underline">
+                    {project.title}
+                  </span>
+                  {project.technologies.length > 0 && (
+                    <span className="font-mono text-xs text-faint">
+                      {project.technologies.join(" · ")}
+                    </span>
+                  )}
+                </Link>
               </li>
             ))}
           </ul>
-        )}
-      </section>
+        </section>
+      )}
     </div>
   );
 }
