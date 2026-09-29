@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Reveal } from "./components/Reveal";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8080";
@@ -124,14 +125,16 @@ export default async function Home() {
       </section>
 
       <section id="yazilar" className="flex scroll-mt-24 flex-col gap-6">
-        <div className="flex items-baseline justify-between">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-paper sm:text-3xl">
-            Son Yazılar
-          </h2>
-          <span className="font-mono text-xs text-faint">
-            {articles?.length ?? 0} yayın
-          </span>
-        </div>
+        <Reveal>
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-display text-2xl font-bold tracking-tight text-paper sm:text-3xl">
+              Son Yazılar
+            </h2>
+            <span className="font-mono text-xs text-faint">
+              {articles?.length ?? 0} yayın
+            </span>
+          </div>
+        </Reveal>
         {articles === null ? (
           <p className="text-sm text-muted">Yazılar yüklenemedi.</p>
         ) : articles.length === 0 ? (
@@ -139,25 +142,23 @@ export default async function Home() {
         ) : (
           <ul className="grid gap-3 sm:grid-cols-2">
             {articles.map((article, i) => (
-              <li
-                key={article.id}
-                className="rise"
-                style={{ animationDelay: `${i * 70}ms` }}
-              >
-                <Link
-                  href={`/articles/${article.slug}`}
-                  className="card-lift block rounded-2xl border border-line bg-surface p-5"
-                >
-                  <p className="font-mono text-[11px] tracking-widest text-accent">
-                    YAZI
-                  </p>
-                  <p className="mt-2 font-display text-lg font-semibold leading-snug text-paper">
-                    {article.title}
-                  </p>
-                  <p className="mt-3 font-mono text-xs text-faint">
-                    /{article.slug} →
-                  </p>
-                </Link>
+              <li key={article.id}>
+                <Reveal delay={(i % 4) * 70}>
+                  <Link
+                    href={`/articles/${article.slug}`}
+                    className="card-lift block h-full rounded-2xl border border-line bg-surface p-5"
+                  >
+                    <p className="font-mono text-[11px] tracking-widest text-accent">
+                      YAZI
+                    </p>
+                    <p className="mt-2 font-display text-lg font-semibold leading-snug text-paper">
+                      {article.title}
+                    </p>
+                    <p className="mt-3 font-mono text-xs text-faint">
+                      /{article.slug} →
+                    </p>
+                  </Link>
+                </Reveal>
               </li>
             ))}
           </ul>
@@ -165,17 +166,19 @@ export default async function Home() {
       </section>
 
       <section className="flex flex-col gap-6">
-        <div className="flex items-baseline justify-between">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-paper sm:text-3xl">
-            Öne Çıkan Projeler
-          </h2>
-          <Link
-            href="/projects"
-            className="nav-link font-mono text-xs text-muted"
-          >
-            TÜMÜ →
-          </Link>
-        </div>
+        <Reveal>
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-display text-2xl font-bold tracking-tight text-paper sm:text-3xl">
+              Öne Çıkan Projeler
+            </h2>
+            <Link
+              href="/projects"
+              className="nav-link font-mono text-xs text-muted"
+            >
+              TÜMÜ →
+            </Link>
+          </div>
+        </Reveal>
         {projects === null ? (
           <p className="text-sm text-muted">Projeler yüklenemedi.</p>
         ) : projects.length === 0 ? (
@@ -183,32 +186,30 @@ export default async function Home() {
         ) : (
           <ul className="grid gap-3 sm:grid-cols-2">
             {projects.slice(0, 4).map((project, i) => (
-              <li
-                key={project.id}
-                className="rise"
-                style={{ animationDelay: `${i * 70}ms` }}
-              >
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="card-lift block rounded-2xl border border-line bg-surface p-5"
-                >
-                  <p className="font-mono text-[11px] tracking-widest text-accent">
-                    PROJE
-                  </p>
-                  <p className="mt-2 font-display text-lg font-semibold leading-snug text-paper">
-                    {project.title}
-                  </p>
-                  {project.summary && (
-                    <p className="mt-1 line-clamp-2 text-sm leading-6 text-muted">
-                      {project.summary}
+              <li key={project.id}>
+                <Reveal delay={(i % 4) * 70}>
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="card-lift block h-full rounded-2xl border border-line bg-surface p-5"
+                  >
+                    <p className="font-mono text-[11px] tracking-widest text-accent">
+                      PROJE
                     </p>
-                  )}
-                  {project.technologies.length > 0 && (
-                    <p className="mt-3 font-mono text-xs text-faint">
-                      {project.technologies.join(" · ")}
+                    <p className="mt-2 font-display text-lg font-semibold leading-snug text-paper">
+                      {project.title}
                     </p>
-                  )}
-                </Link>
+                    {project.summary && (
+                      <p className="mt-1 line-clamp-2 text-sm leading-6 text-muted">
+                        {project.summary}
+                      </p>
+                    )}
+                    {project.technologies.length > 0 && (
+                      <p className="mt-3 font-mono text-xs text-faint">
+                        {project.technologies.join(" · ")}
+                      </p>
+                    )}
+                  </Link>
+                </Reveal>
               </li>
             ))}
           </ul>

@@ -465,3 +465,31 @@ liste/detay, admin) aynı dile geçirildi ki tutarsızlık borcu kalmasın.
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-29
+
+### D-019: Ölçülü Motion (Sayfa Geçişleri + Smooth Scroll)
+
+**Karar**
+
+D-018 motion sistemi kalabalık bulunduğu için geri alındı (`ff387e7`).
+Yerine görsel gürültü yaratmayan üç öğe kondu:
+
+- `template.tsx` ile route değişimlerinde sayfa girişi
+  (0.45s fade + 12px rise, `usePathname` key'li, Suspense sarmallı).
+- `lenis` smooth scroll (+ anchor desteği). Görünmez altyapı, tek bağımlılık.
+- `Reveal`: scroll'da kademeli kart/başlık girişleri (sessiz, 0.8s).
+- Geri gelmeyenler: custom cursor, canvas hero, marquee, magnetic,
+  progress bar.
+- `prefers-reduced-motion` hepsini kapatır; lint + build temiz.
+
+**Gerekçe**
+
+Kullanıcı "daha animasyonlu geçişli ama kalabalık olmayan" site istedi.
+Hareket, ortamın parçası değil geçişlerin dili olarak tutuldu.
+
+**Durum**
+
+Kabul edildi.
