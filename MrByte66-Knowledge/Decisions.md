@@ -532,6 +532,36 @@ Kabul edildi.
 
 ## 2026-09-29
 
+### D-023: Bilgi Takımyıldızı (Gezilebilir Graf Hero)
+
+**Karar**
+
+Kullanıcı loss temasından sonra başka özgün deneme istedi. Anasayfa
+hero'su el yapımı force-directed bilgi grafiğine çevrildi (Three.js
+kaldırıldı, bağımlılık yok):
+
+- `Constellation`: canvas 2D fizik (itme + yay + merkez çekimi, sönüm).
+  Düğümler = hub + yazılar (mavi) + projeler (amber); kenarlar hub'a ve
+  zincir içi. Sürükle-bırak, hover'da komşu vurgulama + etiket, tıklamada
+  detay sayfasına git (sürükleme ile ayırt edilir).
+- Arka planda süzülen yıldız tozu; sağ altta renk lejantı.
+- İçerik bölümleri cam paneller olarak korundu; HUD ve loss sahnesi silindi.
+- Mobil: dokunmatikte tap çalışır, drag yok; reduced-motion: tek
+  dengelenmiş kare. lint + build temiz.
+
+**Gerekçe**
+
+Navigasyonun kendisi deneyim olmalı: site haritası yerine yaşayan graf.
+Ağır WebGL yerine hafif canvas — aynı özgünlük, daha az maliyet.
+
+**Durum**
+
+Kabul edildi.
+
+---
+
+## 2026-09-29
+
 ### D-021: Apple-Tarzı Aydınlık Tema
 
 **Karar**

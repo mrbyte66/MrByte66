@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LossLandscape } from "./components/LossLandscape";
+import { Constellation, type GraphNode } from "./components/Constellation";
 import { Reveal } from "./components/Reveal";
 
 const BACKEND_URL =
@@ -84,36 +84,46 @@ export default async function Home() {
   ]);
   const online = backendStatus === "UP";
 
+  const graph: GraphNode[] = [
+    { id: "hub", label: "MrByte66", href: "/", kind: "hub" },
+    ...(articles ?? []).slice(0, 6).map((a) => ({
+      id: `a-${a.id}`,
+      label: a.title.length > 26 ? `${a.title.slice(0, 26)}…` : a.title,
+      href: `/articles/${a.slug}`,
+      kind: "article" as const,
+    })),
+    ...(projects ?? []).slice(0, 6).map((p) => ({
+      id: `p-${p.id}`,
+      label: p.title.length > 26 ? `${p.title.slice(0, 26)}…` : p.title,
+      href: `/projects/${p.slug}`,
+      kind: "project" as const,
+    })),
+  ];
+
   return (
     <div className="flex flex-col">
-      <LossLandscape />
-
-      <section className="relative flex min-h-screen flex-col items-center justify-center gap-6 px-6 pt-16 text-center">
-        <p
-          className="rise font-mono text-xs tracking-[0.35em] text-accent"
-          style={{ animationDelay: "0ms" }}
-        >
-          LOSS LANDSCAPE · KAYDIRARAK İN
-        </p>
-        <h1
-          className="rise font-display text-6xl font-bold leading-[1.02] tracking-tight sm:text-8xl"
-          style={{ animationDelay: "120ms" }}
-        >
-          <span className="text-gradient-sky">İniş</span>
-          <br />
-          <span className="text-paper">başlasın.</span>
-        </h1>
-        <p
-          className="rise max-w-xl text-lg leading-8 text-muted"
-          style={{ animationDelay: "240ms" }}
-        >
-          Burası bir yapay zekâ kayıp yüzeyi. Kaydırdıkça optimizer vadiye
-          iner; yazılar ve projeler yol boyunca belirir.
-        </p>
-        <div
-          className="rise flex items-center gap-2 font-mono text-xs text-faint"
-          style={{ animationDelay: "320ms" }}
-        >
+      <section className="relative flex min-h-[92vh] flex-col overflow-hidden">
+        <Constellation nodes={graph} />
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-col items-center gap-4 px-6 pt-28 text-center">
+          <p className="rise font-mono text-xs tracking-[0.35em] text-accent">
+            BİLGİ TAKIMYILDIZI
+          </p>
+          <h1
+            className="rise font-display text-5xl font-bold leading-[1.02] tracking-tight sm:text-7xl"
+            style={{ animationDelay: "120ms" }}
+          >
+            <span className="text-gradient-sky">Düşünce</span>
+            <span className="text-paper"> ağı.</span>
+          </h1>
+          <p
+            className="rise max-w-md leading-7 text-muted"
+            style={{ animationDelay: "240ms" }}
+          >
+            Her düğüm bir yazı, bir proje. Sürükle, yakından bak, tıklayıp
+            içine gir.
+          </p>
+        </div>
+        <div className="absolute bottom-6 left-6 flex items-center gap-2 font-mono text-[11px] text-faint">
           <span
             className={`inline-block h-1.5 w-1.5 rounded-full ${
               online ? "live-dot bg-accent" : "bg-red-500"
@@ -121,11 +131,8 @@ export default async function Home() {
           />
           API {backendStatus}
         </div>
-        <div className="rise absolute bottom-8 flex flex-col items-center gap-2">
-          <span className="font-mono text-[10px] tracking-[0.3em] text-faint">
-            SCROLL
-          </span>
-          <span className="scroll-cue text-xl text-accent">↓</span>
+        <div className="absolute bottom-6 right-6 hidden font-mono text-[11px] text-faint sm:block">
+          mavi · yazı&ensp;&ensp;amber · proje
         </div>
       </section>
 
@@ -201,33 +208,6 @@ export default async function Home() {
             ))}
           </ul>
         )}
-      </section>
-
-      <section className="relative mx-auto flex w-full max-w-5xl flex-col items-center gap-5 px-6 py-32 text-center">
-        <Reveal>
-          <p className="font-mono text-xs tracking-[0.35em] text-accent">
-            MİNİMUMDAYIZ
-          </p>
-        </Reveal>
-        <Reveal delay={100}>
-          <h2 className="max-w-2xl font-display text-4xl font-bold tracking-tight text-paper sm:text-5xl">
-            Vadiye ulaştın.
-          </h2>
-        </Reveal>
-        <Reveal delay={200}>
-          <p className="max-w-md leading-7 text-muted">
-            Optimizer dinleniyor. İstersen panele geçip yeni içerik ekle —
-            yüzey her yazıyla yeniden şekillenir.
-          </p>
-        </Reveal>
-        <Reveal delay={280}>
-          <Link
-            href="/admin"
-            className="inline-block rounded-full bg-accent px-7 py-2.5 text-[15px] font-semibold text-ink"
-          >
-            Panele Git
-          </Link>
-        </Reveal>
       </section>
     </div>
   );
