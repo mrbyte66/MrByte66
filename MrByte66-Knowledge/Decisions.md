@@ -220,3 +220,29 @@ Modül sınırları package disiplini ile korunacak, ileride ihtiyaç duyulursa 
 **Durum**
 
 Kabul edildi.
+
+---
+
+### D-011: Frontend Stack Finalizasyonu
+
+**Karar**
+
+Frontend stack aşağıdaki şekilde kesinleştirilmiştir:
+
+- Next.js 16.3.7, App Router
+- React 19 + TypeScript
+- Tailwind CSS 4 (styling çözümü)
+- ESLint
+- Paket yöneticisi: npm
+
+V1 ana sayfa iskeleti backend `/api/health` durumunu gösterecek şekilde bağlanmıştır.
+
+**Gerekçe**
+
+Architecture'da styling seçimi geliştirme başlangıcına bırakılmıştı.
+
+Tailwind CSS; component tabanlı yapı, tasarım sistemi hedefi ve hızlı prototipleme ihtiyacı nedeniyle tercih edilmiştir.
+
+**Durum**
+
+Kabul edildi.

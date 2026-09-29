@@ -21,3 +21,10 @@ target/
 mvnw
 mvnw.cmd
 
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.log
+.next-swc/
+

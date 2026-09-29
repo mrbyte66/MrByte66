@@ -94,9 +94,9 @@ Backend:
 
 Frontend:
 
-- Node.js: LTS
-- Next.js: Latest stable version
-- TypeScript
+- Node.js: 24 LTS (24.21.0 ile doğrulandı; npm 11.19.0)
+- Next.js: 16.3.7, App Router (V1 başlangıç sürümü)
+- React 19 + TypeScript + Tailwind CSS 4 + ESLint
 
 Database:
 
