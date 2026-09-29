@@ -16,9 +16,31 @@ async function getBackendStatus(): Promise<string> {
   }
 }
 
+type Article = {
+  id: number;
+  slug: string;
+  title: string;
+  status: string;
+};
+
+async function getArticles(): Promise<Article[] | null> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/articles`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      return null;
+    }
+    return (await res.json()) as Article[];
+  } catch {
+    return null;
+  }
+}
+
 export default async function Home() {
   const backendStatus = await getBackendStatus();
   const online = backendStatus === "UP";
+  const articles = await getArticles();
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -37,6 +59,36 @@ export default async function Home() {
           />
           Backend: {backendStatus}
         </div>
+        <section className="w-full max-w-md text-left">
+          <h2 className="mb-3 text-xl font-semibold text-black dark:text-zinc-50">
+            Articles
+          </h2>
+          {articles === null ? (
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              Articles could not be loaded.
+            </p>
+          ) : articles.length === 0 ? (
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              No published articles yet.
+            </p>
+          ) : (
+            <ul className="flex flex-col gap-2">
+              {articles.map((article) => (
+                <li
+                  key={article.id}
+                  className="rounded-lg border border-solid border-black/[.08] px-4 py-3 dark:border-white/[.145]"
+                >
+                  <span className="font-medium text-black dark:text-zinc-50">
+                    {article.title}
+                  </span>
+                  <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
+                    /{article.slug}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </main>
     </div>
   );

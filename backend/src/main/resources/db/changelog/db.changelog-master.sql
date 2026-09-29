@@ -10,3 +10,9 @@ CREATE TABLE articles (
   created_at TIMESTAMPTZ NOT NULL,
   updated_at TIMESTAMPTZ
 );
+
+--changeset mrbyte66:2
+INSERT INTO articles (slug, title, content, status, created_at) VALUES
+  ('hos-geldin', 'MrByte66''ye Hoş Geldin', 'Bu platformun ilk yazısıdır.', 'PUBLISHED', NOW()),
+  ('ilk-teknik-not', 'İlk Teknik Not', 'Backend, frontend ve veritabanı uçtan uca konuşuyor.', 'PUBLISHED', NOW()),
+  ('taslak-yazi', 'Taslak Yazı', 'Bu yazı henüz yayınlanmadı.', 'DRAFT', NOW());
