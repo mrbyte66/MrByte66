@@ -14,7 +14,7 @@ class ArticleRepositoryTest {
 
   @Test
   void savesAndFindsBySlug() {
-    articles.save(new Article("hello-world", "Hello World", "First content.", ArticleStatus.DRAFT));
+    articles.save(new Article("hello-world", "Hello World", "First content.", ContentStatus.DRAFT));
 
     assertThat(articles.findBySlug("hello-world"))
         .isPresent()
@@ -25,7 +25,7 @@ class ArticleRepositoryTest {
 
   @Test
   void setsCreatedAtOnPersist() {
-    Article saved = articles.save(new Article("timestamps", "Timestamps", "Body.", ArticleStatus.PUBLISHED));
+    Article saved = articles.save(new Article("timestamps", "Timestamps", "Body.", ContentStatus.PUBLISHED));
 
     assertThat(saved.getId()).isNotNull();
     assertThat(saved.getCreatedAt()).isNotNull();

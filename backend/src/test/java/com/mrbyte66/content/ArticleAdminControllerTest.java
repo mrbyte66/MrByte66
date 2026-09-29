@@ -45,8 +45,8 @@ class ArticleAdminControllerTest {
   @Test
   void listsAllArticlesIncludingDrafts() throws Exception {
     String token = adminToken();
-    articles.save(new Article("visible", "Visible", "Body.", ArticleStatus.PUBLISHED));
-    articles.save(new Article("concealed", "Concealed", "Body.", ArticleStatus.DRAFT));
+    articles.save(new Article("visible", "Visible", "Body.", ContentStatus.PUBLISHED));
+    articles.save(new Article("concealed", "Concealed", "Body.", ContentStatus.DRAFT));
 
     mockMvc.perform(get("/api/admin/articles")
             .header("Authorization", "Bearer " + token))
@@ -94,7 +94,7 @@ class ArticleAdminControllerTest {
   @Test
   void rejectsDuplicateSlugWith409() throws Exception {
     String token = adminToken();
-    articles.save(new Article("taken", "Taken", "Body.", ArticleStatus.PUBLISHED));
+    articles.save(new Article("taken", "Taken", "Body.", ContentStatus.PUBLISHED));
 
     mockMvc.perform(post("/api/admin/articles")
             .header("Authorization", "Bearer " + token)
@@ -125,7 +125,7 @@ class ArticleAdminControllerTest {
   @Test
   void updatesArticleAndPublishesDraft() throws Exception {
     String token = adminToken();
-    Long id = articles.save(new Article("wip", "Wip", "Body.", ArticleStatus.DRAFT)).getId();
+    Long id = articles.save(new Article("wip", "Wip", "Body.", ContentStatus.DRAFT)).getId();
 
     mockMvc.perform(put("/api/admin/articles/" + id)
             .header("Authorization", "Bearer " + token)
@@ -143,8 +143,8 @@ class ArticleAdminControllerTest {
   @Test
   void rejectsSlugTakenByAnotherArticle() throws Exception {
     String token = adminToken();
-    articles.save(new Article("first", "First", "Body.", ArticleStatus.PUBLISHED));
-    Long secondId = articles.save(new Article("second", "Second", "Body.", ArticleStatus.DRAFT)).getId();
+    articles.save(new Article("first", "First", "Body.", ContentStatus.PUBLISHED));
+    Long secondId = articles.save(new Article("second", "Second", "Body.", ContentStatus.DRAFT)).getId();
 
     mockMvc.perform(put("/api/admin/articles/" + secondId)
             .header("Authorization", "Bearer " + token)
@@ -171,7 +171,7 @@ class ArticleAdminControllerTest {
   @Test
   void deletesArticleFromPublicFeed() throws Exception {
     String token = adminToken();
-    Long id = articles.save(new Article("bye", "Bye", "Body.", ArticleStatus.PUBLISHED)).getId();
+    Long id = articles.save(new Article("bye", "Bye", "Body.", ContentStatus.PUBLISHED)).getId();
 
     mockMvc.perform(delete("/api/admin/articles/" + id)
             .header("Authorization", "Bearer " + token))

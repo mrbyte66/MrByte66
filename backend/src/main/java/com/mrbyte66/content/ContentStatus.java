@@ -1,6 +1,6 @@
 package com.mrbyte66.content;
 
-public enum ArticleStatus {
+public enum ContentStatus {
   DRAFT,
   PUBLISHED,
   ARCHIVED

@@ -29,7 +29,7 @@ public class SecurityConfig {
             // /error must stay open: controller-thrown statuses (e.g. 404)
             // are re-dispatched here, otherwise they become 401.
             .requestMatchers("/error").permitAll()
-            .requestMatchers("/api/health", "/api/articles/**", "/api/auth/login").permitAll()
+            .requestMatchers("/api/health", "/api/articles/**", "/api/projects/**", "/api/auth/login").permitAll()
             .requestMatchers("/api/admin/**").hasRole("SUPER_ADMIN")
             .anyRequest().authenticated())
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

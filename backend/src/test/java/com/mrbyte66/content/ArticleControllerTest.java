@@ -24,8 +24,8 @@ class ArticleControllerTest {
 
   @Test
   void listsOnlyPublishedArticles() throws Exception {
-    articles.save(new Article("pub", "Published One", "Body.", ArticleStatus.PUBLISHED));
-    articles.save(new Article("draft", "Draft One", "Body.", ArticleStatus.DRAFT));
+    articles.save(new Article("pub", "Published One", "Body.", ContentStatus.PUBLISHED));
+    articles.save(new Article("draft", "Draft One", "Body.", ContentStatus.DRAFT));
 
     mockMvc.perform(get("/api/articles"))
         .andExpect(status().isOk())
@@ -36,7 +36,7 @@ class ArticleControllerTest {
 
   @Test
   void returnsPublishedArticleBySlug() throws Exception {
-    articles.save(new Article("detail", "Detail Title", "Full body.", ArticleStatus.PUBLISHED));
+    articles.save(new Article("detail", "Detail Title", "Full body.", ContentStatus.PUBLISHED));
 
     mockMvc.perform(get("/api/articles/detail"))
         .andExpect(status().isOk())
@@ -46,7 +46,7 @@ class ArticleControllerTest {
 
   @Test
   void returns404ForMissingOrDraftSlug() throws Exception {
-    articles.save(new Article("hidden", "Hidden", "Body.", ArticleStatus.DRAFT));
+    articles.save(new Article("hidden", "Hidden", "Body.", ContentStatus.DRAFT));
 
     mockMvc.perform(get("/api/articles/nope")).andExpect(status().isNotFound());
     mockMvc.perform(get("/api/articles/hidden")).andExpect(status().isNotFound());

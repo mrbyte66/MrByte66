@@ -7,7 +7,7 @@ public record ArticleDetail(
     String slug,
     String title,
     String content,
-    ArticleStatus status,
+    ContentStatus status,
     Instant createdAt,
     Instant updatedAt) {
 

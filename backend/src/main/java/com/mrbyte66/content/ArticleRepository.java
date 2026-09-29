@@ -10,5 +10,5 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
   List<Article> findAllByOrderByCreatedAtDesc();
 
-  List<Article> findByStatusOrderByCreatedAtDesc(ArticleStatus status);
+  List<Article> findByStatusOrderByCreatedAtDesc(ContentStatus status);
 }

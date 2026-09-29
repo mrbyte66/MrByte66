@@ -6,7 +6,7 @@ public record ArticleSummary(
     Long id,
     String slug,
     String title,
-    ArticleStatus status,
+    ContentStatus status,
     Instant createdAt) {
 
   static ArticleSummary from(Article article) {

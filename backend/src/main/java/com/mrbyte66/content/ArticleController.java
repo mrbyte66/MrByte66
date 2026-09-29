@@ -20,7 +20,7 @@ public class ArticleController {
 
   @GetMapping
   public List<ArticleSummary> listPublished() {
-    return articles.findByStatusOrderByCreatedAtDesc(ArticleStatus.PUBLISHED)
+    return articles.findByStatusOrderByCreatedAtDesc(ContentStatus.PUBLISHED)
         .stream()
         .map(ArticleSummary::from)
         .toList();
@@ -29,7 +29,7 @@ public class ArticleController {
   @GetMapping("/{slug}")
   public ArticleDetail getBySlug(@PathVariable String slug) {
     return articles.findBySlug(slug)
-        .filter(article -> article.getStatus() == ArticleStatus.PUBLISHED)
+        .filter(article -> article.getStatus() == ContentStatus.PUBLISHED)
         .map(ArticleDetail::from)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Article not found"));
   }
