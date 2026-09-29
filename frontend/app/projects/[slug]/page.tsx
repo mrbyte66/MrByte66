@@ -42,7 +42,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await getProject(slug).catch(() => null);
   return {
-    title: project ? `${project.title} | MrByte66` : "Project | MrByte66",
+    title: project ? `${project.title} | MrByte66` : "Proje | MrByte66",
   };
 }
 
@@ -61,18 +61,13 @@ export default async function ProjectPage({
   }
   if (loadError) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-        <main className="flex w-full max-w-3xl flex-col items-center gap-6 px-16 py-32 text-center">
-          <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">
-            Project could not be loaded.
-          </h1>
-          <Link
-            href="/projects"
-            className="text-sm text-zinc-600 hover:underline dark:text-zinc-400"
-          >
-            ← Back to projects
-          </Link>
-        </main>
+      <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-6 px-6 py-32 text-center">
+        <h1 className="font-display text-2xl font-bold text-paper">
+          Proje yüklenemedi.
+        </h1>
+        <Link href="/projects" className="nav-link text-sm text-muted">
+          ← Projelere dön
+        </Link>
       </div>
     );
   }
@@ -81,48 +76,56 @@ export default async function ProjectPage({
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex w-full max-w-3xl flex-col gap-6 px-16 py-32">
-        <Link
-          href="/projects"
-          className="text-sm text-zinc-600 hover:underline dark:text-zinc-400"
-        >
-          ← Back to projects
-        </Link>
-        <h1 className="text-4xl font-semibold tracking-tight text-black dark:text-zinc-50">
-          {project.title}
-        </h1>
-        {project.technologies.length > 0 && (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {project.technologies.join(" · ")}
-          </p>
-        )}
-        <article className="text-lg leading-8 text-zinc-700 dark:text-zinc-300">
-          {project.content}
-        </article>
-        <div className="flex gap-4 text-sm">
-          {project.demoUrl && (
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="text-zinc-600 hover:underline dark:text-zinc-400"
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 py-16 sm:py-24">
+      <Link href="/projects" className="nav-link w-fit text-sm text-muted">
+        ← Projelere dön
+      </Link>
+      <p className="rise font-mono text-xs tracking-[0.3em] text-accent">
+        PROJE
+      </p>
+      <h1 className="rise font-display text-4xl font-bold leading-tight tracking-tight text-paper sm:text-5xl">
+        {project.title}
+      </h1>
+      {project.summary && (
+        <p className="rise text-lg leading-8 text-muted">{project.summary}</p>
+      )}
+      {project.technologies.length > 0 && (
+        <div className="rise flex flex-wrap gap-2">
+          {project.technologies.map((tech) => (
+            <span
+              key={tech}
+              className="rounded-full border border-line bg-surface px-3 py-1 font-mono text-xs text-muted"
             >
-              Live demo →
-            </a>
-          )}
-          {project.sourceUrl && (
-            <a
-              href={project.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="text-zinc-600 hover:underline dark:text-zinc-400"
-            >
-              Source code →
-            </a>
-          )}
+              {tech}
+            </span>
+          ))}
         </div>
-      </main>
+      )}
+      <article className="rise whitespace-pre-wrap text-lg leading-9 text-paper/85">
+        {project.content}
+      </article>
+      <div className="rise flex gap-5 text-sm">
+        {project.demoUrl && (
+          <a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full bg-accent px-5 py-2 font-semibold text-ink transition-transform duration-300 hover:-translate-y-0.5"
+          >
+            Canlı Demo →
+          </a>
+        )}
+        {project.sourceUrl && (
+          <a
+            href={project.sourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-line px-5 py-2 text-paper transition-colors duration-300 hover:border-accent/50"
+          >
+            Kaynak Kod →
+          </a>
+        )}
+      </div>
     </div>
   );
 }

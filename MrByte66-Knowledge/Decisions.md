@@ -432,3 +432,36 @@ yok. 32/32 test ve canlı uçtan uca doğrulama yapıldı.
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-29
+
+### D-017: Tasarım Sistemi V1 (Dark Editorial + TR)
+
+**Karar**
+
+Arayüz vasat iskeletten dark-first editorial tasarıma geçirildi:
+
+- Fontlar (hepsi `latin-ext` alt kümeli, TR karakterler için):
+  Space Grotesk (display) + Inter (body) + JetBrains Mono (etiketler).
+- Renkler: `ink #0B0C0E` zemin, `surface #14161A` kartlar,
+  `paper #EDEDEF` metin, `muted/faint` ikincil metin,
+  accent lime `#C6F135` (ölçülü: etiket, hover, CTA).
+- Ortak `SiteHeader` (sticky, blur, mono logo) + `SiteFooter`;
+  tüm sayfalar `max-w-5xl/3xl` ritmini paylaşır.
+- Hareket: CSS-only (`rise` staggered giriş, `card-lift` hover,
+  nav underline, nabız veren API noktası). JS animasyon kütüphanesi yok
+  (performans, Requirements).
+- Dil: UI Türkçeye çevrildi (`lang="tr"`), içerik zaten Türkçe idi.
+- Yeni bağımlılık yok; `npm run build` temiz.
+
+**Gerekçe**
+
+Requirements premium/ödüllük hissiyat, tutarlı tasarım dili ve Türkçe
+içerik desteği istiyordu. Tek seferde tüm sayfalar (anasayfa hero,
+liste/detay, admin) aynı dile geçirildi ki tutarsızlık borcu kalmasın.
+
+**Durum**
+
+Kabul edildi.

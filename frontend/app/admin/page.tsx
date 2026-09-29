@@ -241,20 +241,20 @@ export default function AdminPage() {
   }
 
   const inputClass =
-    "w-full rounded-lg border border-solid border-black/[.08] bg-transparent px-4 py-2 text-black dark:border-white/[.145] dark:text-zinc-50";
+    "w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-paper placeholder:text-faint focus:border-accent/60 focus:outline-none";
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex w-full max-w-3xl flex-col gap-6 px-8 py-16">
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-6 py-16">
+      <main className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-semibold tracking-tight text-black dark:text-zinc-50">
+          <h1 className="font-display text-4xl font-bold tracking-tight text-paper">
             Admin
           </h1>
           <button
             onClick={handleLogout}
-            className="text-sm text-zinc-600 hover:underline dark:text-zinc-400"
+            className="text-sm text-muted hover:text-paper hover:underline"
           >
-            Log out
+            Çıkış
           </button>
         </div>
 
@@ -265,25 +265,25 @@ export default function AdminPage() {
               onClick={() => setTab(t)}
               className={
                 tab === t
-                  ? "font-semibold text-black underline dark:text-zinc-50"
+                  ? "font-semibold text-paper underline decoration-accent underline-offset-4"
                   : "text-zinc-600 hover:underline dark:text-zinc-400"
               }
             >
-              {t === "articles" ? "Articles" : "Projects"}
+              {t === "articles" ? "Yazılar" : "Projeler"}
             </button>
           ))}
         </div>
 
-        {error && <p className="text-sm text-red-500">{error}</p>}
+        {error && <p className="text-sm text-red-400">{error}</p>}
 
         {tab === "articles" ? (
           <>
             <form
               onSubmit={handleCreateArticle}
-              className="flex flex-col gap-3 rounded-lg border border-solid border-black/[.08] p-4 dark:border-white/[.145]"
+              className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-5"
             >
-              <h2 className="font-medium text-black dark:text-zinc-50">
-                New article
+              <h2 className="font-display font-semibold text-paper">
+                Yeni yazı
               </h2>
               <input
                 className={inputClass}
@@ -293,41 +293,41 @@ export default function AdminPage() {
               />
               <input
                 className={inputClass}
-                placeholder="Title"
+                placeholder="Başlık"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
               <textarea
                 className={inputClass}
-                placeholder="Content"
+                placeholder="İçerik"
                 rows={3}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
               <button
                 type="submit"
-                className="rounded-lg bg-zinc-900 px-4 py-2 text-white dark:bg-zinc-50 dark:text-black"
+                className="rounded-xl bg-accent px-4 py-2.5 font-semibold text-ink"
               >
-                Create as draft
+                Taslak olarak oluştur
               </button>
             </form>
 
             {articles === null ? (
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                Loading…
+                Yükleniyor…
               </p>
             ) : (
               <ul className="flex flex-col gap-2">
                 {articles.map((article) => (
                   <li
                     key={article.id}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-solid border-black/[.08] px-4 py-3 dark:border-white/[.145]"
+                    className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3"
                   >
                     <div>
-                      <span className="font-medium text-black dark:text-zinc-50">
+                      <span className="font-display font-semibold text-paper">
                         {article.title}
                       </span>
-                      <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="ml-2 font-mono text-xs text-faint">
                         /{article.slug} · {article.status}
                       </span>
                     </div>
@@ -337,14 +337,14 @@ export default function AdminPage() {
                         className="text-zinc-600 hover:underline dark:text-zinc-400"
                       >
                         {article.status === "PUBLISHED"
-                          ? "Unpublish"
-                          : "Publish"}
+                          ? "Yayından kaldır"
+                          : "Yayınla"}
                       </button>
                       <button
                         onClick={() => handleDeleteArticle(article.id)}
-                        className="text-red-500 hover:underline"
+                        className="text-red-400 hover:underline"
                       >
-                        Delete
+                        Sil
                       </button>
                     </div>
                   </li>
@@ -356,10 +356,10 @@ export default function AdminPage() {
           <>
             <form
               onSubmit={handleCreateProject}
-              className="flex flex-col gap-3 rounded-lg border border-solid border-black/[.08] p-4 dark:border-white/[.145]"
+              className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-5"
             >
-              <h2 className="font-medium text-black dark:text-zinc-50">
-                New project
+              <h2 className="font-display font-semibold text-paper">
+                Yeni proje
               </h2>
               <input
                 className={inputClass}
@@ -369,53 +369,53 @@ export default function AdminPage() {
               />
               <input
                 className={inputClass}
-                placeholder="Title"
+                placeholder="Başlık"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
               <input
                 className={inputClass}
-                placeholder="Summary (optional)"
+                placeholder="Özet (opsiyonel)"
                 value={summary}
                 onChange={(e) => setSummary(e.target.value)}
               />
               <textarea
                 className={inputClass}
-                placeholder="Content"
+                placeholder="İçerik"
                 rows={3}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
               <input
                 className={inputClass}
-                placeholder="Technologies (comma separated)"
+                placeholder="Teknolojiler (virgülle ayır)"
                 value={technologies}
                 onChange={(e) => setTechnologies(e.target.value)}
               />
               <button
                 type="submit"
-                className="rounded-lg bg-zinc-900 px-4 py-2 text-white dark:bg-zinc-50 dark:text-black"
+                className="rounded-xl bg-accent px-4 py-2.5 font-semibold text-ink"
               >
-                Create as draft
+                Taslak olarak oluştur
               </button>
             </form>
 
             {projects === null ? (
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                Loading…
+                Yükleniyor…
               </p>
             ) : (
               <ul className="flex flex-col gap-2">
                 {projects.map((project) => (
                   <li
                     key={project.id}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-solid border-black/[.08] px-4 py-3 dark:border-white/[.145]"
+                    className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3"
                   >
                     <div>
-                      <span className="font-medium text-black dark:text-zinc-50">
+                      <span className="font-display font-semibold text-paper">
                         {project.title}
                       </span>
-                      <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="ml-2 font-mono text-xs text-faint">
                         /{project.slug} · {project.status}
                       </span>
                     </div>
@@ -425,14 +425,14 @@ export default function AdminPage() {
                         className="text-zinc-600 hover:underline dark:text-zinc-400"
                       >
                         {project.status === "PUBLISHED"
-                          ? "Unpublish"
-                          : "Publish"}
+                          ? "Yayından kaldır"
+                          : "Yayınla"}
                       </button>
                       <button
                         onClick={() => handleDeleteProject(project.id)}
-                        className="text-red-500 hover:underline"
+                        className="text-red-400 hover:underline"
                       >
-                        Delete
+                        Sil
                       </button>
                     </div>
                   </li>

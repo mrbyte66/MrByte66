@@ -2,6 +2,7 @@ import Link from "next/link";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8080";
+
 async function getBackendStatus(): Promise<string> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/health`, {
@@ -24,6 +25,14 @@ type Article = {
   status: string;
 };
 
+type Project = {
+  id: number;
+  slug: string;
+  title: string;
+  summary: string | null;
+  technologies: string[];
+};
+
 async function getArticles(): Promise<Article[] | null> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/articles`, {
@@ -38,69 +47,173 @@ async function getArticles(): Promise<Article[] | null> {
   }
 }
 
+async function getProjects(): Promise<Project[] | null> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/projects`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      return null;
+    }
+    return (await res.json()) as Project[];
+  } catch {
+    return null;
+  }
+}
+
 export default async function Home() {
-  const backendStatus = await getBackendStatus();
+  const [backendStatus, articles, projects] = await Promise.all([
+    getBackendStatus(),
+    getArticles(),
+    getProjects(),
+  ]);
   const online = backendStatus === "UP";
-  const articles = await getArticles();
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex w-full max-w-3xl flex-col items-center gap-6 px-16 py-32 text-center">
-        <h1 className="text-4xl font-semibold tracking-tight text-black dark:text-zinc-50">
-          MrByte66
-        </h1>
-        <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-          Personal digital platform. Frontend skeleton is running.
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-20 px-6 py-16 sm:py-24">
+      <section className="flex flex-col gap-6">
+        <p
+          className="rise font-mono text-xs tracking-[0.3em] text-accent"
+          style={{ animationDelay: "0ms" }}
+        >
+          YAZILIM · YAPAY ZEKA · DÜŞÜNCE
         </p>
-        <nav className="flex items-center gap-4 text-sm text-zinc-600 dark:text-zinc-400">
-          <Link href="/projects" className="hover:underline">
-            Projects →
+        <h1
+          className="rise font-display text-5xl font-bold leading-[1.05] tracking-tight text-paper sm:text-7xl"
+          style={{ animationDelay: "90ms" }}
+        >
+          Merakla inşa
+          <br />
+          edilen bir
+          <br />
+          dijital atölye.
+        </h1>
+        <p
+          className="rise max-w-xl text-lg leading-8 text-muted"
+          style={{ animationDelay: "180ms" }}
+        >
+          MrByte66; teknik yazıların, projelerin ve kişisel notların
+          biriktiği yaşayan bir arşiv. Öğren, üret, paylaş — hepsi tek
+          çatıda.
+        </p>
+        <div
+          className="rise flex flex-wrap items-center gap-4"
+          style={{ animationDelay: "270ms" }}
+        >
+          <Link
+            href="/#yazilar"
+            className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-ink transition-transform duration-300 hover:-translate-y-0.5"
+          >
+            Yazıları Oku
           </Link>
-          <Link href="/admin" className="hover:underline">
-            Admin →
+          <Link
+            href="/projects"
+            className="rounded-full border border-line px-6 py-2.5 text-sm text-paper transition-colors duration-300 hover:border-accent/50"
+          >
+            Projeler
           </Link>
-        </nav>
-        <div className="flex items-center gap-2 rounded-full border border-solid border-black/[.08] px-5 py-2 text-sm dark:border-white/[.145]">
-          <span
-            className={`inline-block h-2.5 w-2.5 rounded-full ${
-              online ? "bg-green-500" : "bg-red-500"
-            }`}
-          />
-          Backend: {backendStatus}
+          <span className="flex items-center gap-2 font-mono text-xs text-faint">
+            <span
+              className={`inline-block h-2 w-2 rounded-full ${
+                online ? "live-dot bg-accent" : "bg-red-500"
+              }`}
+            />
+            API: {backendStatus}
+          </span>
         </div>
-        <section className="w-full max-w-md text-left">
-          <h2 className="mb-3 text-xl font-semibold text-black dark:text-zinc-50">
-            Articles
+      </section>
+
+      <section id="yazilar" className="flex scroll-mt-24 flex-col gap-6">
+        <div className="flex items-baseline justify-between">
+          <h2 className="font-display text-2xl font-bold tracking-tight text-paper sm:text-3xl">
+            Son Yazılar
           </h2>
-          {articles === null ? (
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              Articles could not be loaded.
-            </p>
-          ) : articles.length === 0 ? (
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              No published articles yet.
-            </p>
-          ) : (
-            <ul className="flex flex-col gap-2">
-              {articles.map((article) => (
-                <li
-                  key={article.id}
-                  className="rounded-lg border border-solid border-black/[.08] px-4 py-3 dark:border-white/[.145]"
+          <span className="font-mono text-xs text-faint">
+            {articles?.length ?? 0} yayın
+          </span>
+        </div>
+        {articles === null ? (
+          <p className="text-sm text-muted">Yazılar yüklenemedi.</p>
+        ) : articles.length === 0 ? (
+          <p className="text-sm text-muted">Henüz yayınlanmış yazı yok.</p>
+        ) : (
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {articles.map((article, i) => (
+              <li
+                key={article.id}
+                className="rise"
+                style={{ animationDelay: `${i * 70}ms` }}
+              >
+                <Link
+                  href={`/articles/${article.slug}`}
+                  className="card-lift block rounded-2xl border border-line bg-surface p-5"
                 >
-                  <Link href={`/articles/${article.slug}`} className="block">
-                    <span className="font-medium text-black dark:text-zinc-50">
-                      {article.title}
-                    </span>
-                    <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
-                      /{article.slug}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      </main>
+                  <p className="font-mono text-[11px] tracking-widest text-accent">
+                    YAZI
+                  </p>
+                  <p className="mt-2 font-display text-lg font-semibold leading-snug text-paper">
+                    {article.title}
+                  </p>
+                  <p className="mt-3 font-mono text-xs text-faint">
+                    /{article.slug} →
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="flex flex-col gap-6">
+        <div className="flex items-baseline justify-between">
+          <h2 className="font-display text-2xl font-bold tracking-tight text-paper sm:text-3xl">
+            Öne Çıkan Projeler
+          </h2>
+          <Link
+            href="/projects"
+            className="nav-link font-mono text-xs text-muted"
+          >
+            TÜMÜ →
+          </Link>
+        </div>
+        {projects === null ? (
+          <p className="text-sm text-muted">Projeler yüklenemedi.</p>
+        ) : projects.length === 0 ? (
+          <p className="text-sm text-muted">Henüz yayınlanmış proje yok.</p>
+        ) : (
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {projects.slice(0, 4).map((project, i) => (
+              <li
+                key={project.id}
+                className="rise"
+                style={{ animationDelay: `${i * 70}ms` }}
+              >
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="card-lift block rounded-2xl border border-line bg-surface p-5"
+                >
+                  <p className="font-mono text-[11px] tracking-widest text-accent">
+                    PROJE
+                  </p>
+                  <p className="mt-2 font-display text-lg font-semibold leading-snug text-paper">
+                    {project.title}
+                  </p>
+                  {project.summary && (
+                    <p className="mt-1 line-clamp-2 text-sm leading-6 text-muted">
+                      {project.summary}
+                    </p>
+                  )}
+                  {project.technologies.length > 0 && (
+                    <p className="mt-3 font-mono text-xs text-faint">
+                      {project.technologies.join(" · ")}
+                    </p>
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }

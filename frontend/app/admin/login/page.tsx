@@ -23,8 +23,8 @@ export default function AdminLoginPage() {
       if (!res.ok) {
         setError(
           res.status === 401
-            ? "Invalid username or password."
-            : "Login failed. Try again.",
+            ? "Kullanıcı adı veya parola hatalı."
+            : "Giriş başarısız. Tekrar dene.",
         );
         return;
       }
@@ -32,47 +32,52 @@ export default function AdminLoginPage() {
       localStorage.setItem("mrbyte66_token", data.token);
       router.push("/admin");
     } catch {
-      setError("Backend unreachable.");
+      setError("Backend'e ulaşılamıyor.");
     } finally {
       setLoading(false);
     }
   }
 
   const inputClass =
-    "w-full rounded-lg border border-solid border-black/[.08] bg-transparent px-4 py-2 text-black dark:border-white/[.145] dark:text-zinc-50";
+    "w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-paper placeholder:text-faint focus:border-accent/60 focus:outline-none";
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex w-full max-w-md flex-col gap-6 px-8 py-16">
-        <h1 className="text-3xl font-semibold tracking-tight text-black dark:text-zinc-50">
-          Admin Login
-        </h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            className={inputClass}
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            autoComplete="username"
-          />
-          <input
-            className={inputClass}
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-          />
-          {error && <p className="text-sm text-red-500">{error}</p>}
-          <button
-            type="submit"
-            disabled={loading}
-            className="rounded-lg bg-zinc-900 px-4 py-2 text-white disabled:opacity-50 dark:bg-zinc-50 dark:text-black"
-          >
-            {loading ? "Signing in…" : "Sign in"}
-          </button>
-        </form>
-      </main>
+    <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6 py-16">
+      <p className="rise font-mono text-xs tracking-[0.3em] text-accent">
+        YÖNETİM
+      </p>
+      <h1 className="rise mt-3 font-display text-4xl font-bold tracking-tight text-paper">
+        Giriş Yap
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="rise mt-8 flex flex-col gap-4"
+        style={{ animationDelay: "90ms" }}
+      >
+        <input
+          className={inputClass}
+          placeholder="Kullanıcı adı"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          autoComplete="username"
+        />
+        <input
+          className={inputClass}
+          type="password"
+          placeholder="Parola"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
+        />
+        {error && <p className="text-sm text-red-400">{error}</p>}
+        <button
+          type="submit"
+          disabled={loading}
+          className="rounded-xl bg-accent px-4 py-2.5 font-semibold text-ink disabled:opacity-50"
+        >
+          {loading ? "Giriş yapılıyor…" : "Giriş Yap"}
+        </button>
+      </form>
     </div>
   );
 }

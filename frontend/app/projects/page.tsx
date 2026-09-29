@@ -27,62 +27,58 @@ async function getProjects(): Promise<Project[] | null> {
 }
 
 export const metadata = {
-  title: "Projects | MrByte66",
+  title: "Projeler | MrByte66",
 };
 
 export default async function ProjectsPage() {
   const projects = await getProjects();
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex w-full max-w-3xl flex-col gap-6 px-16 py-32">
-        <Link
-          href="/"
-          className="text-sm text-zinc-600 hover:underline dark:text-zinc-400"
-        >
-          ← Back to home
-        </Link>
-        <h1 className="text-4xl font-semibold tracking-tight text-black dark:text-zinc-50">
-          Projects
-        </h1>
-        {projects === null ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Projects could not be loaded.
-          </p>
-        ) : projects.length === 0 ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            No published projects yet.
-          </p>
-        ) : (
-          <ul className="flex flex-col gap-2">
-            {projects.map((project) => (
-              <li
-                key={project.id}
-                className="rounded-lg border border-solid border-black/[.08] px-4 py-3 dark:border-white/[.145]"
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 py-16 sm:py-24">
+      <p className="rise font-mono text-xs tracking-[0.3em] text-accent">
+        PORTFÖY
+      </p>
+      <h1 className="rise font-display text-5xl font-bold tracking-tight text-paper sm:text-6xl">
+        Projeler
+      </h1>
+      <p className="rise max-w-xl leading-7 text-muted">
+        Üzerinde çalıştığım işler: kullanılan teknolojiler, kararlar ve
+        kaynak kodlarıyla birlikte.
+      </p>
+      {projects === null ? (
+        <p className="text-sm text-muted">Projeler yüklenemedi.</p>
+      ) : projects.length === 0 ? (
+        <p className="text-sm text-muted">Henüz yayınlanmış proje yok.</p>
+      ) : (
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {projects.map((project, i) => (
+            <li
+              key={project.id}
+              className="rise"
+              style={{ animationDelay: `${i * 70}ms` }}
+            >
+              <Link
+                href={`/projects/${project.slug}`}
+                className="card-lift block rounded-2xl border border-line bg-surface p-6"
               >
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="block"
-                >
-                  <span className="font-medium text-black dark:text-zinc-50">
-                    {project.title}
-                  </span>
-                  {project.summary && (
-                    <span className="block text-sm text-zinc-600 dark:text-zinc-400">
-                      {project.summary}
-                    </span>
-                  )}
-                  {project.technologies.length > 0 && (
-                    <span className="mt-1 block text-xs text-zinc-500 dark:text-zinc-400">
-                      {project.technologies.join(" · ")}
-                    </span>
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </main>
+                <p className="font-display text-xl font-semibold leading-snug text-paper">
+                  {project.title}
+                </p>
+                {project.summary && (
+                  <p className="mt-2 text-sm leading-6 text-muted">
+                    {project.summary}
+                  </p>
+                )}
+                {project.technologies.length > 0 && (
+                  <p className="mt-4 font-mono text-xs text-faint">
+                    {project.technologies.join(" · ")}
+                  </p>
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
