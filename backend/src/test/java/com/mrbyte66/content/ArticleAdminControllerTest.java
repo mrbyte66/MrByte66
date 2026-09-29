@@ -43,6 +43,18 @@ class ArticleAdminControllerTest {
   }
 
   @Test
+  void listsAllArticlesIncludingDrafts() throws Exception {
+    String token = adminToken();
+    articles.save(new Article("visible", "Visible", "Body.", ArticleStatus.PUBLISHED));
+    articles.save(new Article("concealed", "Concealed", "Body.", ArticleStatus.DRAFT));
+
+    mockMvc.perform(get("/api/admin/articles")
+            .header("Authorization", "Bearer " + token))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()").value(2));
+  }
+
+  @Test
   void createsPublishedArticleVisibleOnPublicFeed() throws Exception {
     String token = adminToken();
 

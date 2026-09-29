@@ -1,8 +1,10 @@
 package com.mrbyte66.content;
 
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +23,14 @@ public class ArticleAdminController {
 
   public ArticleAdminController(ArticleRepository articles) {
     this.articles = articles;
+  }
+
+  @GetMapping
+  public List<ArticleDetail> listAll() {
+    return articles.findAllByOrderByCreatedAtDesc()
+        .stream()
+        .map(ArticleDetail::from)
+        .toList();
   }
 
   @PostMapping
