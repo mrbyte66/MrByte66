@@ -15,3 +15,11 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.sql
     enabled: true
+
+app:
+  auth:
+    jwt-secret: ${APP_JWT_SECRET:mrbyte66-local-dev-secret-change-in-prod-000}
+    jwt-expiry-minutes: ${APP_JWT_EXPIRY_MINUTES:720}
+    admin-username: ${APP_ADMIN_USERNAME:admin}
+    # Local development only. Production must override via environment.
+    admin-password: ${APP_ADMIN_PASSWORD:admin-dev}

@@ -7,3 +7,10 @@ spring:
       ddl-auto: create-drop
   liquibase:
     enabled: false
+
+app:
+  auth:
+    jwt-secret: test-secret-must-be-at-least-32-chars-long
+    jwt-expiry-minutes: 60
+    admin-username: test-admin
+    admin-password: test-password

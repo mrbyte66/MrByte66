@@ -29,6 +29,10 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mrbyte66
       SPRING_DATASOURCE_USERNAME: mrbyte66
       SPRING_DATASOURCE_PASSWORD: mrbyte66-dev
+      # Local development only. Do not use in production.
+      APP_JWT_SECRET: mrbyte66-local-dev-secret-change-in-prod-000
+      APP_ADMIN_USERNAME: admin
+      APP_ADMIN_PASSWORD: admin-dev
     ports:
       - "8080:8080"
 

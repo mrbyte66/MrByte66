@@ -310,3 +310,49 @@ lockfile SAGE'in ürettiği haliyle kanonik kalır.
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-29
+
+### D-014: JWT Auth Altyapısı (Spring Security + JJWT)
+
+**Karar**
+
+Authentication altyapısı aşağıdaki şekilde kurulmuştur:
+
+- `spring-boot-starter-security` + JJWT 0.12.6 (HS256).
+- `user` paketi: `app_users` tablosu (`User`, `UserRole`, `UserRepository`).
+  Tablo adı `app_users` seçildi çünkü `USER` hem PostgreSQL hem H2'de
+  rezerve kelimedir. `UserRole` V1'de yalnızca `SUPER_ADMIN` içerir (D-006),
+  V2 Author modeline hazırdır.
+- `authentication` paketi: `AuthProperties` (`app.auth.*`, tamamı env ile
+  ezilebilir), `JwtService`, `AdminSeeder`, `AuthController`
+  (`POST /api/auth/login` → `{token, tokenType: Bearer, expiresIn}`),
+  `JwtAuthenticationFilter`, `SecurityConfig` (stateless, CSRF kapalı).
+- Public: `/api/health`, `/api/articles/**`, `/api/auth/login`.
+  Diğer tüm path'ler JWT ister; tokensız erişim `401 {"error":"Unauthorized"}`
+  döner (D-009 tutarlı hata formatı).
+- Logout JWT'de stateless'tır: client token'ı siler, sunucu tarafı
+  blacklist V1'de yoktur.
+- Tek Super Admin, `AdminSeeder` ile env'den gelen
+  (`APP_ADMIN_USERNAME` / `APP_ADMIN_PASSWORD`) bilgilerle ilk açılışta
+  BCrypt-hash'li oluşturulur; parola kodda ve changelog'da tutulmaz.
+- `APP_JWT_SECRET` en az 32 karakter olmalıdır, aksi halde uygulama
+  açılışta fail-fast hata verir.
+- Migration: changeset 3 (`app_users` tablosu). Changeset 1'e dokunulmadı,
+  seed verisi changeset 2'de kalır.
+- Compose ve local varsayılanlar dev değerleri taşır
+  (`admin` / `admin-dev`), production env ile ezilmelidir.
+
+**Gerekçe**
+
+Architecture.md JWT + Spring Security öngörüyordu; admin paneli (CRUD)
+işlerine geçmeden önce güvenlik katmanının testleriyle birlikte hazır
+olması gerekiyordu. 14/14 test (unit + MockMvc integration) ve canlı
+doğrulama (login → 200 + token, yanlış parola → 401, korumalı path → 401,
+public path'ler açık) MAcos native ortamda yapıldı.
+
+**Durum**
+
+Kabul edildi.
