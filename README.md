@@ -18,17 +18,20 @@ Backend and frontend skeletons are running.
 
 ## Quick Start
 
-With Docker (Docker Engine inside WSL Ubuntu, via `sudo`):
+With Docker:
 
 ```powershell
-wsl -e bash -c "cd '/mnt/c/Users/beytullah/Documents/Obsidian Vault/MrByte66' && sudo docker compose up --build -d"
+docker compose up --build
 ```
 
 Stop:
 
 ```powershell
-wsl -e bash -c "cd '/mnt/c/Users/beytullah/Documents/Obsidian Vault/MrByte66' && sudo docker compose down"
+docker compose down
 ```
+
+Machine-specific instructions (SAGE / MAcos / masterPC) are in
+`MrByte66-Knowledge/Local-Development-Setup.md`.
 
 - Frontend: http://localhost:3000
 - Backend: http://localhost:8080/api/health

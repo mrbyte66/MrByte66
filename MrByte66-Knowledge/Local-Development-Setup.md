@@ -76,11 +76,17 @@ docker compose up --build
 - Backend: http://localhost:8080/api/health
 - PostgreSQL: localhost:5432
 
-Gereksinim: Docker Engine, WSL Ubuntu içerisinde çalışmaktadır
-(docker.io + docker-compose-v2 paketleri, Ubuntu 26.04 ile doğrulandı).
+Gereksinim: Docker Engine veya Docker Desktop (makineye göre değişir, aşağıdaki tabloya bakın).
 
-Docker Desktop kurulu değildir ve mevcut Windows sürümünde desteklenmemektedir;
-tüm `docker` komutları WSL üzerinden `sudo` ile çalıştırılır.
+---
+
+## Makineler
+
+| Makine | İşletim Sistemi | Docker | Notlar |
+|---|---|---|---|
+| SAGE | Windows (eski sürüm, Docker Desktop desteklenmiyor) | WSL Ubuntu 26.04 içinde Docker Engine (`docker.io` + `docker-compose-v2`) | JDK 25 portable kurulum (`C:\Java`), `JAVA_HOME` set edildi; npm PATH gölgeleme sorunu kullanıcı PATH'i ile çözüldü; `docker` komutları WSL üzerinden `sudo` ile çalıştırılır |
+| MAcos | macOS | TBD | İlk kurulumda doldurulacaktır |
+| masterPC | TBD | TBD | İlk kurulumda doldurulacaktır |
 
 Amaç:
 
