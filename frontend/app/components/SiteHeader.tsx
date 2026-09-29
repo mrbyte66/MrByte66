@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ScrollProgress } from "./ScrollProgress";
 
 const links = [
   { href: "/#yazilar", label: "Yazılar" },
@@ -25,7 +24,6 @@ export function SiteHeader() {
           ))}
         </nav>
       </div>
-      <ScrollProgress />
     </header>
   );
 }

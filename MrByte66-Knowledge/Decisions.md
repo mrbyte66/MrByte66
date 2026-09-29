@@ -465,39 +465,3 @@ liste/detay, admin) aynı dile geçirildi ki tutarsızlık borcu kalmasın.
 **Durum**
 
 Kabul edildi.
-
----
-
-## 2026-09-29
-
-### D-018: Motion Sistemi (Lenis + El Yapımı Etkileşimler)
-
-**Karar**
-
-Kullanıcı geri bildirimi ("hareket ve etkileşim eksik") üzerine motion
-katmanı eklendi; referanslar Requirements'taki siteler (Active Theory,
-GSAP tarzı):
-
-- `lenis` (tek yeni bağımlılık): buttery smooth scroll + anchor desteği.
-- `HeroCanvas`: canvas üzerinde yavaşça süzülen aurora blob'ları
-  (lime/indigo/cyan, %14 opaklık). WebGL yok, DPR capped, sekme
-  gizlenince rAF durur.
-- `CustomCursor`: nokta + gecikmeli halka, linklerde büyür; yalnızca
-  `pointer:fine` + reduced-motion kapalıysa aktif, native cursor gizlenir.
-- `Magnetic`: CTA butonları imleci hafifçe takip eder.
-- `Reveal`: IntersectionObserver ile scroll'da staggered giriş.
-- `Marquee`: hover'da duran sonsuz şerit.
-- `ScrollProgress`: header altında lime ilerleme çizgisi.
-- Erişilebilirlik: `prefers-reduced-motion` tüm animasyonları kapatır
-  (CSS + JS guard'ları); `npm run build` ve lint temiz.
-
-**Gerekçe**
-
-Framer-motion gibi ağır kütüphaneler yerine ~200 satır el yapımı kod +
-tek küçük bağımlılık tercih edildi (performans prensibi). Motion,
-içeriği gölgelemeyecek şekilde (hızlı, ölçülü, duraklatılabilir)
-uygulandı.
-
-**Durum**
-
-Kabul edildi.
