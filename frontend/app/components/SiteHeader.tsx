@@ -9,13 +9,13 @@ const links = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-ink/70 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-ink/60 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-3">
         <Link
           href="/"
-          className="text-[15px] font-semibold tracking-tight text-paper"
+          className="font-mono text-sm font-semibold tracking-widest text-paper"
         >
-          MrByte66
+          MRBYTE<span className="text-accent">66</span>
         </Link>
         <nav className="flex items-center gap-6 text-xs text-muted">
           {links.map((link) => (

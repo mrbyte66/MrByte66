@@ -498,6 +498,40 @@ Kabul edildi.
 
 ## 2026-09-29
 
+### D-022: Gradient Descent 3B Teması (Loss Landscape Journey)
+
+**Karar**
+
+Kullanıcı özgün 3B tema istedi; ana motif yapay zekâdaki gradient
+descent. Three.js (tek yeni bağımlılık, R3F yok) ile scrollytelling:
+
+- `LossLandscape`: sabit full-screen canvas. Kayıp yüzeyi (128+ segment
+  plane, yükseklik-renkli vertex'ler + wireframe), sayısal gradient
+  descent ile hesaplanan amber iniş patikası, vadide nabız gibi atan
+  marker, yıldız alanı, fog derinliği.
+- Kamera scroll ile vadiye süzülür (CatmullRom eğrisi, lerp yumuşatmalı);
+  marker patika üzerinde ilerler — ziyaretçi optimizer'ın ta kendisidir.
+- HUD: sol altta canlı `iter/loss` okuması + ilerleme çizgisi.
+- İçerik cam panellerde (01 Yazılar, 02 Projeler, final "Vadiye ulaştın").
+- Tema uzay koyusu (`#05070D`, sky accent); header/footer blur cam.
+- Mobil: düşük segment + DPR cap; reduced-motion: tek statik kare;
+  WebGL yoksa canvas gizlenir, içerik okunur kalır.
+- lint + build temiz.
+
+**Gerekçe**
+
+Kullanıcının tarifi birebir uygulandı: grafiği içerikle beraber 3
+boyutlu gezmek, pürüzsüz geçiş. CSS 3D bu derinliği veremezdi; tam WebGL
+gerekti. Detay/admin sayfalar sakin koyu editorial çizgide kaldı.
+
+**Durum**
+
+Kabul edildi.
+
+---
+
+## 2026-09-29
+
 ### D-021: Apple-Tarzı Aydınlık Tema
 
 **Karar**

@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fbfbfd;
-  --foreground: #1d1d1f;
+  --background: #05070d;
+  --foreground: #f2f5f9;
 }
 
 @theme inline {
-  --color-ink: #fbfbfd;
-  --color-surface: #f5f5f7;
-  --color-raised: #ffffff;
-  --color-paper: #1d1d1f;
-  --color-muted: #6e6e73;
-  --color-faint: #86868b;
-  --color-accent: #0071e3;
-  --color-link: #0066cc;
-  --color-line: rgba(0, 0, 0, 0.08);
+  --color-ink: #05070d;
+  --color-surface: #0b1120;
+  --color-raised: #101a30;
+  --color-paper: #f2f5f9;
+  --color-muted: #94a3b8;
+  --color-faint: #5b6b82;
+  --color-accent: #38bdf8;
+  --color-link: #7dd3fc;
+  --color-line: rgba(255, 255, 255, 0.09);
   --font-sans: var(--font-sans);
-  --font-display: var(--font-sans);
+  --font-display: var(--font-display);
   --font-mono: var(--font-mono);
 }
 
@@ -27,7 +27,7 @@ body {
 
 ::selection {
   background: var(--color-accent);
-  color: #ffffff;
+  color: #05070d;
 }
 
 @keyframes rise {
@@ -61,6 +61,8 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 10;
 }
 
 .reveal {
@@ -76,15 +78,23 @@ body {
   transform: translateY(0);
 }
 
+.glass {
+  background: rgba(11, 17, 32, 0.66);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
 .card-lift {
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
     box-shadow 0.35s ease;
 }
 
 .card-lift:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 16px 48px rgba(56, 189, 248, 0.12);
 }
 
 .nav-link {
@@ -121,6 +131,29 @@ body {
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
 
+@keyframes cue-drop {
+  0%,
+  100% {
+    transform: translateY(-4px);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
+.scroll-cue {
+  animation: cue-drop 2.2s ease-in-out infinite;
+}
+
+.text-gradient-sky {
+  background: linear-gradient(180deg, #ffffff 20%, #7dd3fc 75%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;
@@ -134,6 +167,9 @@ body {
     animation: none;
   }
   .live-dot {
+    animation: none;
+  }
+  .scroll-cue {
     animation: none;
   }
 }
