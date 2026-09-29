@@ -52,6 +52,14 @@ export default async function Home() {
         <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
           Personal digital platform. Frontend skeleton is running.
         </p>
+        <nav className="flex items-center gap-4 text-sm text-zinc-600 dark:text-zinc-400">
+          <Link href="/projects" className="hover:underline">
+            Projects →
+          </Link>
+          <Link href="/admin" className="hover:underline">
+            Admin →
+          </Link>
+        </nav>
         <div className="flex items-center gap-2 rounded-full border border-solid border-black/[.08] px-5 py-2 text-sm dark:border-white/[.145]">
           <span
             className={`inline-block h-2.5 w-2.5 rounded-full ${

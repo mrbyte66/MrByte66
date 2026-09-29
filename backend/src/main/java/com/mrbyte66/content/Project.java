@@ -6,6 +6,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -45,7 +46,8 @@ public class Project {
   @Column(nullable = false, columnDefinition = "TEXT")
   private String content;
 
-  @ElementCollection
+  // EAGER: small collection, avoids LazyInitializationException with open-in-view=false.
+  @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "project_technologies", joinColumns = @JoinColumn(name = "project_id"))
   @Column(name = "technology", nullable = false, length = 100)
   private List<String> technologies = new ArrayList<>();

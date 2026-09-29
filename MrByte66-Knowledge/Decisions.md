@@ -391,3 +391,44 @@ doğrulama (oluştur → 201 → frontend detay 200 → sil → 204 → 404) yap
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-29
+
+### D-016: Project İçerik Tipi ve Ortak ContentStatus
+
+**Karar**
+
+- `ArticleStatus` → `ContentStatus` olarak yeniden adlandırıldı;
+  tüm V1 içerik tipleri (Article, Project, sonra BookReview/Essay/Poem/Quote)
+  aynı statü enum'unu paylaşır. DB değerleri değişmediği için migration
+  gerekmedi.
+- `Project`: slug/title/summary/content + `technologies`
+  (`@ElementCollection`, `project_technologies` tablosu) + demoUrl/sourceUrl
+  + status. Teknolojiler virgüllü string yerine ayrı tabloda tutulur
+  (gerçek relational model, D-008).
+- `technologies` EAGER fetch: koleksiyon küçüktür ve `open-in-view=false`
+  ile controller'da DTO mapping yapılırken `LazyInitializationException`
+  veriyordu (canlıda yakalandı, düzeltildi).
+- Article ile aynı API sözleşmesi: public `GET /api/projects`,
+  `GET /api/projects/{slug}` (yalnızca PUBLISHED); admin
+  `GET/POST /api/admin/projects`, `PUT/DELETE /api/admin/projects/{id}`
+  (201/200/204/404/409).
+- Migration: changeset 4 (tablolar) + changeset 5 (1 örnek PUBLISHED proje
+  + `setval` ile sequence düzeltmesi).
+- Frontend: `/projects` liste, `/projects/[slug]` detay (demo/source
+  linkleri), anasayfada Projects nav'i; admin panelde Articles/Projects
+  sekmeleri. Tarayıcı→backend çağrıları same-origin proxy route'larla
+  (`app/api/...`) yapılır, böylece docker (`backend:8080`) ve local
+  (`localhost:8080`) farkı UI koduna yansımaz.
+
+**Gerekçe**
+
+Portföy vitrini kişisel marka hedefinin çekirdeğidir (Requirements).
+Article'da kanıtlanan dikey kalıp birebir tekrar kullanıldı; yeni soyutlama
+yok. 32/32 test ve canlı uçtan uca doğrulama yapıldı.
+
+**Durum**
+
+Kabul edildi.
