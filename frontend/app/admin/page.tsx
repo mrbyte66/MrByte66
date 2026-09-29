@@ -266,7 +266,7 @@ export default function AdminPage() {
               className={
                 tab === t
                   ? "font-semibold text-paper underline decoration-accent underline-offset-4"
-                  : "text-zinc-600 hover:underline dark:text-zinc-400"
+                  : "text-muted hover:text-paper hover:underline"
               }
             >
               {t === "articles" ? "Yazılar" : "Projeler"}
@@ -313,7 +313,7 @@ export default function AdminPage() {
             </form>
 
             {articles === null ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              <p className="text-sm text-muted">
                 Yükleniyor…
               </p>
             ) : (
@@ -334,7 +334,7 @@ export default function AdminPage() {
                     <div className="flex gap-3 text-sm">
                       <button
                         onClick={() => handleToggleArticle(article)}
-                        className="text-zinc-600 hover:underline dark:text-zinc-400"
+                        className="text-muted hover:text-paper hover:underline"
                       >
                         {article.status === "PUBLISHED"
                           ? "Yayından kaldır"
@@ -401,7 +401,7 @@ export default function AdminPage() {
             </form>
 
             {projects === null ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              <p className="text-sm text-muted">
                 Yükleniyor…
               </p>
             ) : (
@@ -422,7 +422,7 @@ export default function AdminPage() {
                     <div className="flex gap-3 text-sm">
                       <button
                         onClick={() => handleToggleProject(project)}
-                        className="text-zinc-600 hover:underline dark:text-zinc-400"
+                        className="text-muted hover:text-paper hover:underline"
                       >
                         {project.status === "PUBLISHED"
                           ? "Yayından kaldır"

@@ -498,6 +498,37 @@ Kabul edildi.
 
 ## 2026-09-29
 
+### D-021: Apple-Tarzı Aydınlık Tema
+
+**Karar**
+
+Kullanıcı Apple sitesi estetiği istedi; lime yeşili tamamen çıktı:
+
+- Tokenlar aynı isimle aydınlığa döndü: zemin `#FBFBFD`, kart
+  `#F5F5F7`/`#FFFFFF`, metin `#1D1D1F`, ikincil `#6E6E73`,
+  accent mavi `#0071E3` (buton + link `#0066CC`).
+- Header: ince, yarı saydam blur bar; footer: gri dipnot şeridi.
+- Anasayfa Apple ritminde: ortalı hero (büyük başlık + mavi hap CTA +
+  `>` linkleri), siyah feature tile (öne çıkan proje), gri bantta
+  beyaz yazı kartları, ardından proje grid'i.
+- 3B sahne/tilt/paralaks kaldırıldı (dosyalar silindi); sayfa geçişleri,
+  smooth scroll, reveal ve progress çizgisi korundu.
+- `dark:` class kalıntısı temizlendi; `font-display` Inter'e bağlandı.
+- lint + build temiz.
+
+**Gerekçe**
+
+Kullanıcı traditional-dışı denemeden sonra net referans verdi: Apple.
+Yeşil kimlikten maviye geçildi; sade, bol nefes alan, ürün-odaklı dil.
+
+**Durum**
+
+Kabul edildi.
+
+---
+
+## 2026-09-29
+
 ### D-020: 3B Derinlik Dili (Traditional-Dışı Tema)
 
 **Karar**

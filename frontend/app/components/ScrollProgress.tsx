@@ -2,32 +2,20 @@
 
 import { useEffect, useRef } from "react";
 
-/** Scroll parallax: layer drifts vertically at a fraction of scroll speed. */
-export function Parallax({
-  children,
-  speed = 0.12,
-  className = "",
-}: {
-  children: React.ReactNode;
-  speed?: number;
-  className?: string;
-}) {
+export function ScrollProgress() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const bar = ref.current;
+    if (!bar) {
       return;
     }
     let raf = 0;
     function update() {
       raf = 0;
-      const rect = el!.getBoundingClientRect();
-      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
-      el!.style.transform = `translate3d(0, ${(-center * speed).toFixed(1)}px, 0)`;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? window.scrollY / max : 0;
+      bar!.style.transform = `scaleX(${progress})`;
     }
     function onScroll() {
       if (raf === 0) {
@@ -44,11 +32,13 @@ export function Parallax({
         cancelAnimationFrame(raf);
       }
     };
-  }, [speed]);
+  }, []);
 
   return (
-    <div ref={ref} className={className}>
-      {children}
-    </div>
+    <div
+      ref={ref}
+      aria-hidden="true"
+      className="scroll-progress absolute bottom-0 left-0 h-px w-full origin-left bg-accent"
+    />
   );
 }
