@@ -201,10 +201,12 @@ export function MonitorStage({ className = "" }: { className?: string }) {
     }
 
     const mouse = { x: 0, y: 0 };
+    let lastMouseMove = Number.NEGATIVE_INFINITY;
     let nodStart = Number.NEGATIVE_INFINITY;
     const onMouseMove = (e: MouseEvent) => {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
+      lastMouseMove = performance.now();
     };
     const onClick = () => {
       nodStart = performance.now();
@@ -212,7 +214,7 @@ export function MonitorStage({ className = "" }: { className?: string }) {
     window.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("click", onClick);
 
-    const clock = new THREE.Clock();
+    const startT = performance.now();
     let raf = 0;
     let headBaseX = 0;
     let headBaseY = 0;
@@ -220,20 +222,25 @@ export function MonitorStage({ className = "" }: { className?: string }) {
 
     const tick = () => {
       raf = requestAnimationFrame(tick);
-      const t = clock.getElapsedTime();
       const now = performance.now();
+      const t = (now - startT) / 1000;
 
-      headBaseY += (mouse.x * 0.55 - headBaseY) * 0.06;
-      headBaseX += (mouse.y * 0.32 - headBaseX) * 0.06;
+      /* Autonomous wander when the mouse is idle: motion is always visible. */
+      const idle = now - lastMouseMove > 3000;
+      const targetX = idle ? Math.sin(now / 2400) * 0.7 : mouse.x;
+      const targetY = idle ? Math.cos(now / 3100) * 0.45 : mouse.y;
+
+      headBaseY += (targetX * 0.55 - headBaseY) * 0.06;
+      headBaseX += (targetY * 0.32 - headBaseX) * 0.06;
       const sinceNod = now - nodStart;
       const nod = sinceNod >= 0 && sinceNod <= 600 ? Math.sin((sinceNod / 600) * Math.PI) * 0.38 : 0;
       headGroup.rotation.y = headBaseY;
       headGroup.rotation.x = headBaseX + nod;
 
-      eyeL.position.x = -0.13 + mouse.x * 0.055;
-      eyeR.position.x = 0.13 + mouse.x * 0.055;
-      eyeL.position.y = 0.05 - mouse.y * 0.04;
-      eyeR.position.y = 0.05 - mouse.y * 0.04;
+      eyeL.position.x = -0.13 + targetX * 0.055;
+      eyeR.position.x = 0.13 + targetX * 0.055;
+      eyeL.position.y = 0.05 - targetY * 0.04;
+      eyeR.position.y = 0.05 - targetY * 0.04;
       const blinkTarget = t % 3.4 > 3.24 ? 0.08 : 1;
       eyeOpen += (blinkTarget - eyeOpen) * 0.55;
       eyeL.scale.y = eyeOpen;
