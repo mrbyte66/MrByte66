@@ -84,4 +84,9 @@ class AuthControllerTest {
     mockMvc.perform(get("/api/health")).andExpect(status().isOk());
     mockMvc.perform(get("/api/articles")).andExpect(status().isOk());
   }
+
+  @Test
+  void missingPublicResourceReturns404Not401() throws Exception {
+    mockMvc.perform(get("/api/articles/no-such-slug")).andExpect(status().isNotFound());
+  }
 }

@@ -26,7 +26,11 @@ public class SecurityConfig {
         .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(entryPoint))
         .authorizeHttpRequests(auth -> auth
+            // /error must stay open: controller-thrown statuses (e.g. 404)
+            // are re-dispatched here, otherwise they become 401.
+            .requestMatchers("/error").permitAll()
             .requestMatchers("/api/health", "/api/articles/**", "/api/auth/login").permitAll()
+            .requestMatchers("/api/admin/**").hasRole("SUPER_ADMIN")
             .anyRequest().authenticated())
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();

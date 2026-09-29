@@ -356,3 +356,38 @@ public path'ler açık) MAcos native ortamda yapıldı.
 **Durum**
 
 Kabul edildi.
+
+---
+
+## 2026-09-29
+
+### D-015: Admin Article CRUD API Sözleşmesi
+
+**Karar**
+
+Super Admin makale yönetimi `ArticleAdminController` ile
+`/api/admin/articles` altında toplanmıştır:
+
+- `POST` → `201` + ArticleDetail, `PUT /{id}` → `200`, `DELETE /{id}` → `204`.
+- Kayıp kayıt → `404`; başkasına ait kullanılmış slug → `409`
+  (DB unique-constraint 500'ü yerine erken kontrol).
+- Geçersiz body → `400` (Bean Validation).
+- `/api/admin/**` yalnızca `SUPER_ADMIN` rolü ister (D-006);
+  rol kontrolü URL tabanlıdır, metod seviyesi anotasyon yoktur.
+- Public okuma (`ArticleController`) ve admin yazma ayrı controller'dır;
+  public taraf değişmeden kalır.
+- `/error` permitAll'dir: controller'ın fırlattığı statüler (örn. 404),
+  Spring Boot'un internal ERROR dispatch'i Security zincirinden tekrar
+  geçtiği için 401'e dönüşüyordu (canlıda yakalandı, düzeltildi).
+  Bu olmadan silinmiş/taslak slug istekleri 404 yerine 401 dönüyordu.
+
+**Gerekçe**
+
+Admin yazma ve public okuma sorumlulukları karışmamalıdır
+(Modular Monolith sınırları, D-010). 409/404 ayrımı frontend'in doğru
+geri bildirim vermesi için gereklidir. 23/23 test ve canlı uçtan uca
+doğrulama (oluştur → 201 → frontend detay 200 → sil → 204 → 404) yapıldı.
+
+**Durum**
+
+Kabul edildi.

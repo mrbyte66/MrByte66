@@ -65,6 +65,22 @@ public class Article {
     updatedAt = Instant.now();
   }
 
+  /** Applies non-null fields from an admin update. */
+  public void update(String slug, String title, String content, ArticleStatus status) {
+    if (slug != null) {
+      this.slug = slug;
+    }
+    if (title != null) {
+      this.title = title;
+    }
+    if (content != null) {
+      this.content = content;
+    }
+    if (status != null) {
+      this.status = status;
+    }
+  }
+
   public Long getId() {
     return id;
   }
