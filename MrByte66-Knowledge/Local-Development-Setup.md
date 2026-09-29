@@ -76,7 +76,11 @@ docker compose up --build
 - Backend: http://localhost:8080/api/health
 - PostgreSQL: localhost:5432
 
-Gereksinim: Docker Desktop kurulu ve çalışır durumda olmalıdır.
+Gereksinim: Docker Engine, WSL Ubuntu içerisinde çalışmaktadır
+(docker.io + docker-compose-v2 paketleri, Ubuntu 26.04 ile doğrulandı).
+
+Docker Desktop kurulu değildir ve mevcut Windows sürümünde desteklenmemektedir;
+tüm `docker` komutları WSL üzerinden `sudo` ile çalıştırılır.
 
 Amaç:
 

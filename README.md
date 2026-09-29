@@ -18,10 +18,16 @@ Backend and frontend skeletons are running.
 
 ## Quick Start
 
-With Docker (requires Docker Desktop):
+With Docker (Docker Engine inside WSL Ubuntu, via `sudo`):
 
 ```powershell
-docker compose up --build
+wsl -e bash -c "cd '/mnt/c/Users/beytullah/Documents/Obsidian Vault/MrByte66' && sudo docker compose up --build -d"
+```
+
+Stop:
+
+```powershell
+wsl -e bash -c "cd '/mnt/c/Users/beytullah/Documents/Obsidian Vault/MrByte66' && sudo docker compose down"
 ```
 
 - Frontend: http://localhost:3000
